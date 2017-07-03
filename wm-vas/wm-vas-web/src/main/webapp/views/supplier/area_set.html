@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>业务地区设置</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../static/js/util.js"></script>
+<script type="text/javascript" src="http://tshcdn.tsh365.cn/ued/ued-common.js"></script>
+
+<style type="text/css">
+	.hh{
+		height: 30px;
+	}
+</style>
+<script type="text/javascript">
+	//存储选择的县域id
+	var selectAreaIds = '';
+	
+	//后台已存储的县域id
+	var returnAreaIds = '';
+	
+	//选择全部或部分县域开关
+	var selectOp = ''; //1-自定义、2-全部
+	
+	function returnList(){
+		location.href = 'list.html';
+	}
+	
+	$(function(){
+		//隐藏所有tab
+		hideTabs();
+		
+		var supplierCode = $.acceptParam("supplierCode");
+		var company = $.acceptParam("company");
+		company = decodeURI(company);
+		$("#currentCompany").text(company);
+		
+		//根据供应商编号查询业务编码
+		getBusinessCodeBySupplierCode(supplierCode);
+		
+		/* switch($('.tabs-selected').text()){
+		   case "火车票":
+			   alert("火车票");
+			   break;
+		   case "缴电费":
+			   alert("缴电费");
+			   break;
+		} */
+		
+		//返回
+		$("#returnId_DJDF").on('click',function(){
+			location.href = 'list.html';
+		});
+		$("#returnId_HCP").on('click',function(){
+			location.href = 'list.html';
+		});
+		$("#returnId_MPCZ").on('click',function(){
+			location.href = 'list.html';
+		});
+		
+		
+		
+		//缴电费部分
+		var selectAreaButtonId = $('#selectAreaButtonId');
+		$('#radio-1').on('click',function(){
+			$('#JDF_selectAreaId').show();
+		});
+		$('#radio-2').on('click',function(){
+			$('#JDF_selectAreaId').hide();
+		});
+		
+		//火车票部分
+		$('#radio-3').on('click',function(){
+			$('#HCP_selectAreaId').show();
+		});
+		$('#radio-4').on('click',function(){
+			$('#HCP_selectAreaId').hide();
+		});
+		
+		//话费充值
+		$('#radio-5').on('click',function(){
+			$('#MPCZ_selectAreaId').show();
+		});
+		$('#radio-6').on('click',function(){
+			$('#MPCZ_selectAreaId').hide();
+		});
+		
+		//缴电费调用公共插件
+		$('#JDF_selectArea_Button').on('click',function(){
+			 selDialog(false,1,1,'xy',"CallBack");
+		})
+		
+		//火车票调用公共插件
+		$('#HCP_selectArea_Button').on('click',function(){
+			 selDialog(false,1,1,'xy',"CallBack");
+		})
+		//话费充值调用公共插件
+		$('#MPCZ_selectArea_Button').on('click',function(){
+			 selDialog(false,1,1,'xy',"CallBack");
+		})
+		
+		//缴电费保存选中的县域
+		$('#saveId_DJDF').on('click',function(){
+			DJDFSaveData(supplierCode);
+		});
+		//火车票保存选中的县域
+		$('#saveId_HCP').on('click',function(){
+			HCPSaveData(supplierCode);
+		});
+		//话费充值保存选中的县域
+		$('#saveId_MPCZ').on('click',function(){
+			MPCZSaveData(supplierCode);
+		});
+		
+		//tab点击加载已选中的县域
+		$('#tt_vas').tabs({
+		    border:false,
+		    onSelect:function(title,index){
+		       if('缴电费' == title){
+		    	   loadDJDFAreaData(supplierCode,'DJDF');
+		       }else if('火车票' == title){
+		    	   loadHCPAreaData(supplierCode,'HCP');
+		       }else if('话费充值' == title){
+		    	   loadMPCZAreaData(supplierCode,'MPCZ');
+		       }
+		    }
+		});
+	});
+	
+	
+	//保存火车票选中县域
+	function HCPSaveData(supplierCode){
+		//判断是全部县域还是自定义县域
+		var selectType = $("input[name='r-group-3']:checked").val();
+		
+		var param = '';
+		param += '{"businessCode":"HCP","supplierAreas":['
+		                                                  
+		if(-1 == selectType){
+			//全部县域
+			param += -1;
+		}
+		if(0 == selectType){
+			
+			if(-1 == sel_openDialog){
+				sel_openDialog = '';
+			}
+			if(sel_openDialog.length >= 1){
+				//选中县域
+				param += sel_openDialog;
+			}else{
+				show('warning','必须选择一个县域');
+				return false;
+			}
+		}
+		param += '],"supplierCode":"';
+		param += supplierCode;
+		param += '"}';
+		
+		//supplierAreas
+		//console.error(param);
+		$.ajax({
+			type : 'post',
+			url : "../../vas/supplier/business/add/area",
+			async : false,
+			data : {
+				'param':param
+			},
+			success : function(data) {
+				if(data){
+					show('info','保存成功!');
+					setTimeout("returnList()",2000);
+				}
+			}
+		});
+	}
+	
+	//保存缴电费选中县域
+	function DJDFSaveData(supplierCode){
+		//判断是全部县域还是自定义县域
+		var selectType = $("input[name='r-group-1']:checked").val();
+		
+		var param = '';
+		param += '{"businessCode":"DJDF","supplierAreas":['
+		                                                  
+		if(-1 == selectType){
+			//全部县域
+			param += -1;
+		}
+		if(0 == selectType){
+			
+			if(-1 == sel_openDialog){
+				sel_openDialog = '';
+			}
+			if(sel_openDialog.length >= 1){
+				//选中县域
+				param += sel_openDialog;
+			}else{
+				show('warning','必须选择一个县域');
+				return false;
+			}
+		}
+		param += '],"supplierCode":"';
+		param += supplierCode;
+		param += '"}';
+		
+		//supplierAreas
+		//console.error(param);
+		$.ajax({
+			type : 'post',
+			url : "../../vas/supplier/business/add/area",
+			async : false,
+			data : {
+				'param':param
+			},
+			success : function(data) {
+				if(data){
+					show('info','保存成功!');
+					setTimeout("returnList()",2000);
+				}
+			}
+		});
+	}
+	
+	//保存话费充值选中县域
+	function MPCZSaveData(supplierCode){
+		//判断是全部县域还是自定义县域
+		var selectType = $("input[name='r-group-5']:checked").val();
+		
+		var param = '';
+		param += '{"businessCode":"MPCZ","supplierAreas":['
+		                                                  
+		if(-1 == selectType){
+			//全部县域
+			param += -1;
+		}
+		if(0 == selectType){
+			
+			if(-1 == sel_openDialog){
+				sel_openDialog = '';
+			}
+			if(sel_openDialog.length >= 1){
+				//选中县域
+				param += sel_openDialog;
+			}else{
+				show('warning','必须选择一个县域');
+				return false;
+			}
+		}
+		param += '],"supplierCode":"';
+		param += supplierCode;
+		param += '"}';
+		
+		//supplierAreas
+		//console.error(param);
+		$.ajax({
+			type : 'post',
+			url : "../../vas/supplier/business/add/area",
+			async : false,
+			data : {
+				'param':param
+			},
+			success : function(data) {
+				if(data){
+					show('info','保存成功!');
+					setTimeout("returnList()",2000);
+				}
+			}
+		});
+	}
+	
+	
+	/**
+	* 话费充值加载已经选中的县域
+	* 供应商编号、业务编号
+	*/
+	function loadMPCZAreaData(supplierCode,businessCode){
+		sel_openDialog = '';
+		returnAreaIds = '';
+		$.ajax({
+			type : 'get',
+			async : false,
+			url : "../../vas/supplier/find/areas",
+			data : {
+				'supplierCode':supplierCode,
+				'businessCode':businessCode
+			},
+			success : function(data) {
+				if(data){
+					if(null != data.data){
+						$.each(data.data,function(index,obj){
+							if(-1 == obj.countryCode){
+								//全选
+								$("#radio-6").attr("checked","checked");
+								$('#MPCZ_selectAreaId').hide();
+							}else{
+								//选择部分
+								$("#radio-5").attr("checked","checked");
+							}
+							returnAreaIds += obj.countryCode;
+							returnAreaIds += ',';
+						});
+						returnAreaIds = returnAreaIds.substring(0,returnAreaIds.length - 1);
+					}else{
+						
+					}
+				}
+			}
+		});
+		console.info(returnAreaIds);
+		sel_openDialog = returnAreaIds;
+	}
+	
+	/**
+	* 火车票加载已经选中的县域
+	* 供应商编号、业务编号
+	*/
+	function loadHCPAreaData(supplierCode,businessCode){
+		sel_openDialog = '';
+		returnAreaIds = '';
+		$.ajax({
+			type : 'get',
+			async : false,
+			url : "../../vas/supplier/find/areas",
+			data : {
+				'supplierCode':supplierCode,
+				'businessCode':businessCode
+			},
+			success : function(data) {
+				if(data){
+					if(null != data.data){
+						$.each(data.data,function(index,obj){
+							if(-1 == obj.countryCode){
+								//全选
+								$("#radio-4").attr("checked","checked");
+								$('#HCP_selectAreaId').hide();
+							}else{
+								//选择部分
+								$("#radio-3").attr("checked","checked");
+							}
+							returnAreaIds += obj.countryCode;
+							returnAreaIds += ',';
+						});
+						returnAreaIds = returnAreaIds.substring(0,returnAreaIds.length - 1);
+					}else{
+						
+					}
+				}
+			}
+		});
+		console.info(returnAreaIds);
+		sel_openDialog = returnAreaIds;
+	}
+	/**
+	* 缴电费加载已经选中的县域
+	* 供应商编号、业务编号
+	*/
+	function loadDJDFAreaData(supplierCode,businessCode){
+		sel_openDialog = '';
+		returnAreaIds = '';
+		$.ajax({
+			type : 'get',
+			async : false,
+			url : "../../vas/supplier/find/areas",
+			data : {
+				'supplierCode':supplierCode,
+				'businessCode':businessCode
+			},
+			success : function(data) {
+				if(data){
+					if(null != data.data){
+						$.each(data.data,function(index,obj){
+							if(-1 == obj.countryCode){
+								//全选
+								$("#radio-2").attr("checked","checked");
+								$('#JDF_selectAreaId').hide();
+							}else{
+								//选择部分
+								$("#radio-1").attr("checked","checked");
+							}
+							returnAreaIds += obj.countryCode;
+							returnAreaIds += ',';
+						});
+						returnAreaIds = returnAreaIds.substring(0,returnAreaIds.length - 1);
+					}else{
+						
+					}
+				}
+			}
+		});
+		console.info(returnAreaIds);
+		sel_openDialog = returnAreaIds;
+	}
+	//回调函数
+	function CallBack_openDialog(bigsty){
+	  if('xy' == bigsty){
+		  selectAreaIds = sel_openDialog;
+	  }
+ 	}
+	
+	//根据供应商编号查询业务编码
+	function getBusinessCodeBySupplierCode(supplierCode){
+		$.ajax({
+			type : 'get',
+			async : false,
+			url : "../../vas/supplier/getBusinessCodeBySupplierCode",
+			data : {
+				'supplierCode':supplierCode
+			},
+			success : function(data) {
+				var data = data.data;
+				$.each(data,function(index,object){
+					if(object.businessCode == 'DJDF'){
+						tab_option = $('#tt_vas').tabs('getTab',"缴电费").panel('options').tab;
+						loadDJDFAreaData(supplierCode,'DJDF');
+						tab_option.show();
+						$(":contains('缴电费')").trigger('click');
+					}
+					if(object.businessCode == 'HCP'){
+						tab_option = $('#tt_vas').tabs('getTab',"火车票").panel('options').tab;
+						loadHCPAreaData(supplierCode,'HCP');
+						tab_option.show();
+						$(":contains('火车票')").trigger('click');
+					}
+					if(object.businessCode == 'MPCZ'){
+						tab_option = $('#tt_vas').tabs('getTab',"话费充值").panel('options').tab;
+						loadMPCZAreaData(supplierCode,'MPCZ');
+						tab_option.show();
+						$(":contains('话费充值')").trigger('click');
+					}
+				});
+				//点击模拟触发事件
+			}
+		});
+	}
+	
+	//隐藏所有的tab
+	function hideTabs(){
+		tab_jdf = $('#tt_vas').tabs('getTab',"缴电费").panel('options').tab;  
+		tab_jdf.hide();
+		
+		tab_hcp = $('#tt_vas').tabs('getTab',"火车票").panel('options').tab;  
+		tab_hcp.hide();
+		
+		tab_mpcz = $('#tt_vas').tabs('getTab',"话费充值").panel('options').tab;  
+		tab_mpcz.hide();
+	}
+</script>
+</head>
+<body style="margin: 0 20px;">
+	<div class="tsh-title ">
+	     <h3>
+	          <div class="title-border"></div>
+	          <span class="t1">增值服务供应商业务地区设置</span>
+	      </h3>
+	  </div>
+	  <div>
+			<span>当前供应商：</span>
+			<span id="currentCompany"></span>
+	  </div>
+		
+	  <div id="tt_vas" class="easyui-tabs" fit="true"  tabHeight="40" style="width:100%;height:auto;padding-top:20px;padding-bottom:20px;">
+	        <!-- 缴电费 -->
+	        <div title="缴电费" style="padding:10px;" id="div_DJDF">
+			    <div style="padding-top: 40px;padding-left: 40px;">
+			    	<label>地区设置：</label>
+			    	<input id="radio-1" type="radio" class="radio" name="r-group-1" checked="checked" value="0" />
+                    <label for="radio-1">自定义县域</label>
+                    <span id="JDF_selectAreaId">
+                    	<input type="button" class="btn btn-1" id="JDF_selectArea_Button" value="修改所选县域" style="height: 33px;" />
+                    </span>
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="radio-2" type="radio" class="radio" name="r-group-1" value="-1" />
+                    <label for="radio-2">全部县域</label>
+			    </div>
+		        <div style="padding-top: 40px;padding-left: 40px;">
+					<span><input type="button" class="btn btn-1" value="保存" id="saveId_DJDF" style="height: 30px;" /></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span><input type="button" class="btn" value="返回" id="returnId_DJDF" style="height: 30px;" /></span>
+				</div>
+	        </div>
+	        
+	        <!-- 火车票 -->
+	        <div title="火车票" style="padding:10px;" id="div_HCP">
+			    <div style="padding-top: 40px;padding-left: 40px;">
+			    	<label>地区设置：</label>
+			    	<input id="radio-3" type="radio" class="radio" name="r-group-3" checked="checked" value="0" />
+                    <label for="radio-3">自定义县域</label>
+                    <span id="HCP_selectAreaId">
+                    	<input type="button" class="btn btn-1" id="HCP_selectArea_Button" value="修改所选县域" style="height: 33px;" />
+                    </span>
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="radio-4" type="radio" class="radio" name="r-group-3" value="-1" />
+                    <label for="radio-4">全部县域</label>
+			    </div>
+		        <div style="padding-top: 40px;padding-left: 40px;">
+					<span><input type="button" class="btn btn-1" value="保存" id="saveId_HCP" style="height: 30px;" /></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span><input type="button" class="btn" value="返回" id="returnId_HCP" style="height: 30px;" /></span>
+				</div>
+	        </div>
+	        
+	        <!-- 话费充值 -->
+	        <div title="话费充值" style="padding:10px;" id="div_MPCZ">
+			    <div style="padding-top: 40px;padding-left: 40px;">
+			    	<label>地区设置：</label>
+			    	<input id="radio-5" type="radio" class="radio" name="r-group-5" checked="checked" value="0" />
+                    <label for="radio-5">自定义县域</label>
+                    <span id="MPCZ_selectAreaId">
+                    	<input type="button" class="btn btn-1" id="MPCZ_selectArea_Button" value="修改所选县域" style="height: 33px;" />
+                    </span>
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="radio-6" type="radio" class="radio" name="r-group-5" value="-1" />
+                    <label for="radio-6">全部县域</label>
+			    </div>
+		        <div style="padding-top: 40px;padding-left: 40px;">
+					<span><input type="button" class="btn btn-1" value="保存" id="saveId_MPCZ" style="height: 30px;" /></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span><input type="button" class="btn" value="返回" id="returnId_MPCZ" style="height: 30px;" /></span>
+				</div>
+	        </div>
+	    </div>
+</body>
+</html>

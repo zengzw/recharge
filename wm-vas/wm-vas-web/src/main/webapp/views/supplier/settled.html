@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <title>淘实惠管理系统-供应商入驻</title>
+    <link href="../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    <script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../../static/tsh/1.0.0/plugins/others/webuploader-0.1.5/webuploader.nolog.min.js"></script>
+    <script src="../../static/js/util.js"></script>
+
+    <style>
+        .form td {
+            padding: 10px 0
+        }
+
+        #tsh-title .btn-4 {
+            position: absolute;
+            top: -5px;
+        }
+
+        .limitEditor {
+            position: relative;
+            width: 400px;
+        }
+
+        .limitEditor-text {
+            position: absolute;
+            bottom: 10px;
+            right: 10px
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            //添加供应商
+            $("#saveId").on('click', function () {
+                var ss = $("#ff").serializeJson("businessCodes");
+
+                console.log(JSON.stringify(ss));
+
+                $("#saveId").click(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: "../../vas/supplier/apply",
+                        data: {
+                            'param': JSON.stringify(ss)
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data) {
+                                console.log(data);
+                            }
+                        }
+                    });
+                })
+
+
+            });
+        })
+    </script>
+</head>
+<body style="margin-left:30px; width:700px;">
+<div id="tb">
+    <form id="ff" method="POST" class="form">
+        <table cellpadding="5">
+            <tr>
+                <td style="text-align:right"><span class="text-red">*</span> 您的姓名：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="supplierName"
+                           missingMessage="请填写真实姓名"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"><span class="text-red">*</span> 您公司的名称：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="company"
+                           missingMessage="请填写您公司名称"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"><span class="text-red">*</span> 联系Email：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="email"
+                           missingMessage="请填写您公司名称"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"><span class="text-red">*</span> 联系手机：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="mobile"
+                           missingMessage="请填写您公司名称"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"><span class="text-red"></span> 联系座机：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="telphone"
+                           missingMessage="请填写您公司名称"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,err:err">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    <span class="text-red">*</span> 想接入的业务：
+                </td>
+                <td>
+                    <input id="check-1" type="checkbox" class="checkbox" name="businessCodes" value="1"/>
+                    <label for="check-1">话费充值</label>
+                    <input id="check-2" type="checkbox" class="checkbox" name="businessCodes" value="2"/>
+                    <label for="check-2">缴电费</label>
+                    <input id="check-3" type="checkbox" class="checkbox" name="businessCodes" value="3"/>
+                    <label for="check-3">缴水费</label>
+                    <input id="check-4" type="checkbox" class="checkbox" name="businessCodes" value="4"/>
+                    <label for="check-4">缴煤气费</label>
+                    <input id="check-5" type="checkbox" class="checkbox" name="businessCodes" value="5"/>
+                    <label for="check-5">有线电视费</label>
+                    <input id="check-6" type="checkbox" class="checkbox" name="businessCodes" value="6"/>
+                    <label for="check-6">固话宽带</label>
+                    <input id="check-7" type="checkbox" class="checkbox" name="businessCodes" value="7"/>
+                    <label for="check-7">交通罚款</label>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    <span class="text-red">*</span>对接申请说明：
+                </td>
+                <td>
+
+                    <div class="limitEditor">
+		                            <textarea name="applyExplain" id="sellPoint" class="easyui-textbox"
+                                              data-options="multiline:true,required:true,validateOnCreate:false,validType:'length[0,1000]',tipPosition:'top'"
+                                              style="width:400px; height:160px" prompt="最多不能超过1000个字"></textarea>
+                        <div id="sellPointLimit" class="limitEditor-text"></div>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"><span class="text-red">*</span> 验证码：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:90px; height:30px;vertical-align:middle" type="text"
+                           name="validateCode"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err"/>
+                    <img style="vertical-align:middle" height="28px" width="80px;"
+                         src="http://boss.tsh365.cn/code.do?loginName=dfas&ts=1474876629996"/>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"></td>
+                <td>
+                    <input id="check-11" type="checkbox" class="checkbox" name="check-11">
+                    <label for="check-11">同意淘实惠增值服务开发对接协议</label>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <a href="javascript:void(0)" class="btn btn-1" id="saveId">提交申请</a>
+                    <div style="color:#c5b1b1;padding-top:20px;">提交申请后我们将会和您进行联系</div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>

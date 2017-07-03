@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>火车票订单报表(县域)</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../js/hcp/hcp_area_order_reports.js"></script>
+<script src="../../static/js/util.js"></script>
+<script src="../../js/webHelper.js"></script>
+</head>
+<body style="margin: 0 20px;">
+	<div id="tb">
+		<div id="tsh-title">
+			<h3>
+				<span class="t1">火车票订单报表</span>
+			</h3>
+			<div class="title-border"></div>
+		</div>
+		<form class="tsh-toolbar" id="governmentSearchForm">
+			<label>
+				<span>订单编号：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入订单编号" id="hcpOrderCode" name="hcpOrderCode" />
+			</label>
+			<label>
+				<span>供应商订单编号：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入供应商订单编号" id="supplierOrderId" name="supplierOrderId" />
+			</label>
+			<label>
+				<span>服务供应商：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入服务供应商" id="supplierName" name="supplierName" />
+			</label>
+			<label>
+				<span>支付时间：</span>
+				<input class="easyui-datebox" editable="false" id="startDate" validType="startTime['#endDate']" style="width: 170px; height: 30px;">-
+				<input class="easyui-datebox" editable="false" id="endDate" validType="startTime['#endDate']" style="width: 170px; height: 30px;">
+			</label>
+			<label>
+				<span>乘车人：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入乘车人" id="userName" name="userName" />
+			</label>
+			<label>
+				<span>乘车人身份证：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入乘车人身份证" id="idCardId" name="idCardId" />
+			</label>
+			<label>
+				<span>购票联系人姓名：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入购票联系人姓名" id="linkName" name="linkName" />
+			</label>
+			<label>
+				<span>购票联系人电话：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入购票联系人电话" id="linkPhone" name="linkPhone" />
+			</label>
+			<label id="categoryLable">订单状态：
+				<select name="payStatus" id="payStatus" class="easyui-combobox" prompt="请选择订单状态" data-options="editable:false" style="height:28px;">
+					<option value = -1 >请选择</option>
+					<option value = 1 >待支付</option>
+					<option value = 2 >支付中</option>
+					<option value = 3 >购票中</option>
+					<option value = 4 >出票中</option>
+					<option value = 5 >交易成功</option>
+					<option value = 6 >支付失败</option>
+					<option value = 7 >购票失败</option>
+					<option value = 8 >出票失败</option>
+					<option value = 16 >支付异常</option>
+					<!-- <option value = 9 >结算中</option>
+					<option value = 10 >结算成功</option>
+					<option value = 11 >结算失败</option>
+					<option value = 12 >退款中</option>
+					<option value = 13 >退款成功</option>
+					<option value = 14 >关闭</option> -->
+				</select>
+			</label>
+			<label id="categoryLable">所属区域：
+				<!-- <select name="province" id="province" prompt="请选择省份" class="easyui-combobox" style="height:28px;width:100px;">
+					<option value="">-请选择-</option>
+				</select>
+				<select name="city" id="city" prompt="请选择市区" class="easyui-combobox" style="height:28px;width:100px;">
+					<option value="">-请选择-</option>
+				</select>
+				<select name="countryName" id="countryName" prompt="请选择县域中心" class="easyui-combobox" style="height:28px;width:180px;">
+					<option value="">-请选择-</option>
+				</select> -->
+				<select name="storeName" id="storeName" prompt="选择网点" class="easyui-combobox" style="height:28px;width:180px;">
+					<!-- <option value="">-请选择-</option> -->
+				</select>
+			</label>
+			<label id="categoryLable">退款状态：
+				<select name="status" id="status" class="easyui-combobox" data-options="editable:false" style="height:28px;">
+					<option value = "-1">请选择</option>
+					<option value = "3">待退款</option>
+					<option value = "12">退款中</option>
+					<option value = "13">退款成功</option>
+				</select>
+			</label>
+			<label>
+				<a href="javascript:;" class="btn btn-1" id="search">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn" id="clear">清空</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn" id="export">导出Excel</a>
+			</label>
+		</form>
+	</div>
+	<table id="dataGrid"></table>
+</body>
+</html>

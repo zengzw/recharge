@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+
+    <bean id="messageSessionFactory"
+          class="com.taobao.metamorphosis.client.extension.spring.MetaqMessageSessionFactoryBean">
+        <property name="zkConnect" value="${zkConnect}"/>
+        <property name="zkSessionTimeoutMs" value="${zkSessionTimeoutMs}"/>
+        <property name="zkConnectionTimeoutMs" value="${zkConnectionTimeoutMs}"/>
+        <property name="zkSyncTimeMs" value="${zkSyncTimeMs}"/>
+    </bean>
+
+    <bean id="messageBodyConverter"
+          class="com.taobao.metamorphosis.client.extension.spring.JavaSerializationMessageBodyConverter"/>
+
+    <bean id="metaqTemplate"
+          class="com.taobao.metamorphosis.client.extension.spring.MetaqTemplate">
+        <property name="messageSessionFactory" ref="messageSessionFactory"/>
+        <property name="messageBodyConverter" ref="messageBodyConverter"/>
+    </bean>
+
+    <bean id="example" class="com.dtds.platform.data.metaq.Producer">
+        <property name="messageSessionFactory" ref="messageSessionFactory"/>
+    </bean>
+
+    <!-- 处理支付的消息主题 -->
+    <bean id="vasPayChargeTopic"
+          class="com.taobao.metamorphosis.client.extension.spring.MetaqTopic">
+        <property name="group" value="vasPayChargeGroup"/>
+        <property name="topic" value="vasPayChargeTopic"/>
+        <property name="maxBufferSize" value="${maxBufferSize}"/>
+    </bean>
+
+    <bean id="vasPayChargeTopicListener" class="com.tsh.vas.sdm.metaq.PayChargeDataMessageListener">
+        <property name="processThreads" value="1"/>
+    </bean>
+
+    <!-- 退款成功后的消息主题 -->
+    <bean id="vasRefundChargeTopic"
+          class="com.taobao.metamorphosis.client.extension.spring.MetaqTopic">
+        <property name="group" value="vasRefundChargeGroup"/>
+        <property name="topic" value="vasRefundChargeTopic"/>
+        <property name="maxBufferSize" value="${maxBufferSize}"/>
+    </bean>
+
+    <bean id="vasRefundChargeTopicListener" class="com.tsh.vas.sdm.metaq.RefundChargeDataMessageListener">
+        <property name="processThreads" value="1"/>
+    </bean>
+    
+    
+    
+    <!-- HCP处理支付的消息主题 -->
+    <bean id="VAS_HCPPayTopic"
+          class="com.taobao.metamorphosis.client.extension.spring.MetaqTopic">
+        <property name="group" value="VAS_HCPPayGroup"/>
+        <property name="topic" value="VAS_HCPPayTopic"/>
+        <property name="maxBufferSize" value="${maxBufferSize}"/>
+    </bean>
+    <bean id="vas_HCPPayTopicListener" class="com.tsh.vas.trainticket.mq.HCPPayChargeCallbackMessageListener">
+        <property name="processThreads" value="1"/>
+    </bean>
+    
+    
+      <!-- HCP退款成功后的消息主题 -->
+    <bean id="VAS_HCPRefundTopic"
+          class="com.taobao.metamorphosis.client.extension.spring.MetaqTopic">
+        <property name="group" value="vas_HCPRefundGroup"/>
+        <property name="topic" value="VAS_HCPRefoundTopic"/>
+        <property name="maxBufferSize" value="${maxBufferSize}"/>
+    </bean>
+
+    <bean id="vas_HCPRefundTopicListener" class="com.tsh.vas.trainticket.mq.HCPRefundChargeDataMessageListener">
+        <property name="processThreads" value="1"/>
+    </bean>
+    
+    
+    
+    <!--  Phone 支付回调接口 -->
+    <bean id="VAS_PhonePayTopic"
+          class="com.taobao.metamorphosis.client.extension.spring.MetaqTopic">
+        <property name="group" value="vas_PhonePayTopic"/>
+        <property name="topic" value="VAS_PhonePayTopic"/>
+        <property name="maxBufferSize" value="${maxBufferSize}"/>
+    </bean>
+
+    <bean id="vasPhonePayTopicListener" class="com.tsh.vas.phone.mq.PhonePayChargeCallbackMessageListener">
+        <property name="processThreads" value="1"/>
+    </bean>
+    
+     
+      <!-- Phone退款成功后的消息主题 -->
+    <bean id="VAS_PhoneRefundTopic"
+          class="com.taobao.metamorphosis.client.extension.spring.MetaqTopic">
+        <property name="group" value="vas_PhoneRefundGroup"/>
+        <property name="topic" value="VAS_PhoneRefoundTopic"/>
+        <property name="maxBufferSize" value="${maxBufferSize}"/>
+    </bean>
+
+    <bean id="vas_PhoneRefundTopicListener" class="com.tsh.vas.phone.mq.PhoneRefundChargeDataMessageListener">
+        <property name="processThreads" value="1"/>
+    </bean>
+
+    <bean id="listenerContainer"
+          class="com.taobao.metamorphosis.client.extension.spring.MessageListenerContainer">
+        <property name="messageSessionFactory" ref="messageSessionFactory"/>
+        <property name="messageBodyConverter" ref="messageBodyConverter"/>
+        <property name="subscribers">
+            <map>
+                <entry key-ref="vasPayChargeTopic" value-ref="vasPayChargeTopicListener"/>
+                <entry key-ref="vasRefundChargeTopic" value-ref="vasRefundChargeTopicListener"/>
+                <entry key-ref="VAS_HCPPayTopic" value-ref="vas_HCPPayTopicListener"/>
+                <entry key-ref="VAS_HCPRefundTopic" value-ref="vas_HCPRefundTopicListener"/>
+                <entry key-ref="VAS_PhonePayTopic" value-ref="vasPhonePayTopicListener"/>
+                <entry key-ref="VAS_PhoneRefundTopic" value-ref="vas_PhoneRefundTopicListener"/>
+            </map>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>增值服务佣金占比</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../static/js/util.js"></script>
+<style type="text/css">
+	.hh{
+		height: 30px;
+	}
+</style>
+<script type="text/javascript">
+	var countryCode = '';
+	var rex = /^\d\.([0-9]{1,2}|[0-9][0-9])$|^[0-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/
+
+	function queryByCountryCodeAndBusinessCodeDJDF(countryCode,businessCode){
+		$.ajax({
+			type : 'get',
+			url : "../../valueAddedServicesOther/queryByCountryCodeAndBusinessCode.do",
+			async:false,
+			data:{
+				'businessCode':businessCode,
+				'countryCode':countryCode
+			},
+			success : function(data) {
+				if("" != data){
+					$('#DJDF_countryShareRatio').val(data.countryShareRatio);
+					$('#DJDF_storeShareRatio').val(data.storeShareRatio);
+				}
+			}
+		});
+	}
+	
+	function queryByCountryCodeAndBusinessCodeHCP(countryCode,businessCode){
+		$.ajax({
+			type : 'get',
+			url : "../../valueAddedServicesOther/queryByCountryCodeAndBusinessCode.do",
+			async:false,
+			data:{
+				'businessCode':businessCode,
+				'countryCode':countryCode
+			},
+			success : function(data) {
+				if("" != data){
+					$('#HCP_countryShareRatio').val(data.countryShareRatio);
+					$('#HCP_storeShareRatio').val(data.storeShareRatio);
+				}
+			}
+		});
+	}
+	
+	function queryByCountryCodeAndBusinessCodeMPCZ(countryCode,businessCode){
+		<!--$.ajax({-->
+			<!--type : 'get',-->
+			<!--url : "../../valueAddedServicesOther/queryByCountryCodeAndBusinessCode.do",-->
+			<!--async:false,-->
+			<!--data:{-->
+				<!--'businessCode':businessCode,-->
+				<!--'countryCode':countryCode-->
+			<!--},-->
+			<!--success : function(data) {-->
+				<!--if("" != data){-->
+					<!--$('#MPCZ_countryShareRatio').val(data.countryShareRatio);-->
+					<!--$('#MPCZ_storeShareRatio').val(data.storeShareRatio);-->
+				<!--}-->
+			<!--}-->
+		<!--});-->
+	}
+	
+	
+	function getLoginInfo(){
+		$.ajax({
+			type : 'get',
+			url : "../../common/getLoginInfo.do",
+			async:false,
+			success : function(data) {
+				if("" != data){
+					countryCode = data.bizId;
+				}else{
+					show('error','用户未登录');
+				}
+			}
+		});
+	}
+
+	$(function(){
+		getLoginInfo();
+		//缴电费
+		queryByCountryCodeAndBusinessCodeDJDF(countryCode,'DJDF');
+		queryByCountryCodeAndBusinessCodeHCP(countryCode,'HCP');
+		queryByCountryCodeAndBusinessCodeMPCZ(countryCode,'MPCZ');
+		
+		//tab点击加载已选中的县域
+		$('#tt').tabs({
+		    border:false,
+		    onSelect:function(title,index){
+		       if('缴电费' == title){
+		    	   queryByCountryCodeAndBusinessCodeDJDF(countryCode,'DJDF');
+		       }else if('火车票' == title){
+		    	   queryByCountryCodeAndBusinessCodeHCP(countryCode,'HCP');
+		       }else if('话费充值' == title){
+		    	   queryByCountryCodeAndBusinessCodeMPCZ(countryCode,'MPCZ');
+		       }
+		    }
+		});
+
+		/**************火车票***********/
+		$('#HCP_countryShareRatio').bind('input propertychange', function() {
+			var _val = $(this).val();
+		    $('#HCP_storeShareRatio').val(100 - $(this).val());
+		});
+
+		$('#HCP_storeShareRatio').bind('input propertychange', function() {
+			var _val = $(this).val();
+			$('#HCP_countryShareRatio').val(100 - $(this).val());
+		});
+
+		$('#saveId_HCP').on('click',function(){
+			//var countryShareRatio = $('#HCP_countryShareRatio').val();
+			//var storeShareRatio = $('#HCP_storeShareRatio').val();
+			var countryShareRatio = 40;
+			var storeShareRatio = 60;
+			if(!rex.test(countryShareRatio) && !rex.test(storeShareRatio)){
+				show('error','只能是0-100,包含0和100,且小数点后最多有2位');
+				return false;
+			}
+			$.ajax({
+				type : 'post',
+				url : "../../valueAddedServicesOther/addBusinessStoreShare.do",
+				async:false,
+				data:{
+					'businessCode' : 'HCP',
+					'countryCode' : countryCode,
+					'countryShareRatio' : countryShareRatio,
+					'storeShareRatio' : storeShareRatio
+				},
+				success : function(data) {
+					if(data){
+						show('info','修改成功');
+						location.reload();
+						$("#tt").tabs("select", 1);
+					}else{
+						show('error','修改失败,请联系管理员');
+					}
+				}
+			});
+		})
+		
+		
+		/************缴电费********/
+		$('#DJDF_countryShareRatio').bind('input propertychange', function() {
+			var _val = $(this).val();
+		    $('#DJDF_storeShareRatio').val(100 - $(this).val());
+		});
+
+		$('#DJDF_storeShareRatio').bind('input propertychange', function() {
+			var _val = $(this).val();
+			$('#DJDF_countryShareRatio').val(100 - $(this).val());
+		});
+
+		$('#saveId_DJDF').on('click',function(){
+			var countryShareRatio = $('#DJDF_countryShareRatio').val();
+			var storeShareRatio = $('#DJDF_storeShareRatio').val();
+			if(!rex.test(countryShareRatio) && !rex.test(storeShareRatio)){
+				show('error','只能是0-100,包含0和100,且小数点后最多有2位');
+				return false;
+			}
+			$.ajax({
+				type : 'post',
+				url : "../../valueAddedServicesOther/addBusinessStoreShare.do",
+				async:false,
+				data:{
+					'businessCode' : 'DJDF',
+					'countryCode' : countryCode,
+					'countryShareRatio' : countryShareRatio,
+					'storeShareRatio' : storeShareRatio
+				},
+				success : function(data) {
+					if(data){
+						show('info','修改成功');
+						location.reload();
+						$("#tt").tabs("select", 0);
+					}else{
+						show('error','修改失败,请联系管理员');
+					}
+				}
+			});
+		})
+		
+		
+		/************话费充值********/
+		$('#MPCZ_countryShareRatio').bind('input propertychange', function() {
+			var _val = $(this).val();
+		    $('#MPCZ_storeShareRatio').val(100 - $(this).val());
+		});
+
+		$('#MPCZ_storeShareRatio').bind('input propertychange', function() {
+			var _val = $(this).val();
+			$('#MPCZ_countryShareRatio').val(100 - $(this).val());
+		});
+
+		$('#saveId_MPCZ').on('click',function(){
+			var countryShareRatio = $('#MPCZ_countryShareRatio').val();
+			var storeShareRatio = $('#MPCZ_storeShareRatio').val();
+			if(!rex.test(countryShareRatio) && !rex.test(storeShareRatio)){
+				show('error','只能是0-100,包含0和100,且小数点后最多有2位');
+				return false;
+			}
+			$.ajax({
+				type : 'post',
+				url : "../../valueAddedServicesOther/addBusinessStoreShare.do",
+				async:false,
+				data:{
+					'businessCode' : 'MPCZ',
+					'countryCode' : countryCode,
+					'countryShareRatio' : countryShareRatio,
+					'storeShareRatio' : storeShareRatio
+				},
+				success : function(data) {
+					if(data){
+						show('info','修改成功');
+						location.reload();
+						$("#tt").tabs("select", 0);
+					}else{
+						show('error','修改失败,请联系管理员');
+					}
+				}
+			});
+		})
+	});
+</script>
+</head>
+<body style="margin: 0 20px;">
+	<div class="tsh-title ">
+	     <h3>
+	          <div class="title-border"></div>
+	          <span class="t1">增值服务佣金占比</span>
+	      </h3>
+	  </div>
+	  <div id="tt" class="easyui-tabs" fit="true"  tabHeight="40" style="width:100%;height:auto;">
+	        <div title="缴电费" style="padding:30px;">
+			    <div>
+	        		<div>
+	        			<label>县域佣金占比</label>
+	        			<input style="width:70px; height:20px;" type="text" name="DJDF_countryShareRatio" id="DJDF_countryShareRatio" />  %
+	        				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	        			<label>网点佣金占比</label>
+	        			<input style="width:70px; height:20px;" type="text" name="DJDF_storeShareRatio" id="DJDF_storeShareRatio" />  %
+	        		</div>
+	        		<div style="padding-left: 140px;padding-top: 20px;">
+	        			<a href="javascript:void(0)" class="btn btn-1" id="saveId_DJDF" >保存</a>
+	        		</div>
+	        	</div>
+	        </div>
+	        <div title="火车票" style="padding:30px;">
+			    <div>
+	        		<div>
+	        			<label>县域佣金占比</label>
+	        			<input style="width:70px; height:20px;" type="text" readonly="readonly" name="HCP_countryShareRatio" id="HCP_countryShareRatio" />  %
+	        				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	        			<label>网点佣金占比</label>
+	        			<input style="width:70px; height:20px;" type="text" readonly="readonly" name="HCP_storeShareRatio" id="HCP_storeShareRatio" />  %
+	        		</div>
+	        		<div style="padding-left: 140px;padding-top: 20px;">
+	        			<a href="javascript:void(0)" class="btn btn-1" id="saveId_HCP" >保存</a>
+	        		</div>
+	        		&nbsp;
+	        		<div>
+	        			
+	        			说明：火车票当前默认佣金占比为：<label style="color: red;">县域0%、网点100%</label>，点击“保存”后将自动生成佣金比例：<label style="color: red;">县域40%，网点60%</label>
+	        		</div>
+	        	</div>
+	        </div>
+	        <div title="话费充值" style="padding:30px;">
+			    <div>
+	        		<div>
+	        			<label>县域佣金占比</label>
+	        			<input style="width:70px; height:20px;" type="text" name="MPCZ_countryShareRatio" id="MPCZ_countryShareRatio" readonly="readonly" value="0"/>  %
+	        				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	        			<label>网点佣金占比</label>
+	        			<input style="width:70px; height:20px;" type="text" name="MPCZ_storeShareRatio" id="MPCZ_storeShareRatio" readonly="readonly" value="100"/>  %
+	        		</div>
+	        		<div style="padding-left: 140px;padding-top: 20px;">
+	        			<!--<a href="javascript:void(0)" class="btn btn-1" id="saveId_MPCZ" >保存</a>-->
+	        		</div>
+	        		&nbsp;
+	        		<div>
+	        			
+	        			说明：话费充值当前佣金占比为：<label style="color: red;">县域0%、网点100%</label>
+	        		</div>
+	        	</div>
+	        </div>
+	   </div>
+</body>
+</html>

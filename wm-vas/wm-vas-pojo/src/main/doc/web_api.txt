@@ -1,0 +1,645 @@
+#######################################################################
+查询所有服务业务的接口
+url:http://172.16.2.227:8200/vas/get/all/business
+请求方式：get
+请求参数：无
+请求结果：跑测试
+#######################################################################
+url:http://172.16.2.227:8200/vas/supplier/add?param={}
+请求方式：post
+供应商申请入驻
+请求参数
+param={
+    "applyExplain": "完成增值服务项目，为农村提供便利服务",
+    "businessCodes": [
+        "DJSF",
+        "DJDF"
+    ],
+    "company": "深圳市深海梦想合伙人有限公司",
+    "email": "469656844@qq.com",
+    "mobile": "18676823505",
+    "supplierName": "任欢",
+    "telphone": "07361510"
+}
+返回结果
+{
+    "applyExplain": "完成增值服务项目，为农村提供便利服务",
+    "checkStatus": 1,
+    "checkTime": 1474539003675,
+    "company": "深圳市深海梦想合伙人有限公司",
+    "createTime": 1474539003675,
+    "email": "469656844@qq.com",
+    "id": 2,
+    "mobile": "18676823505",
+    "supplierCode": "1474539003675",
+    "supplierName": "任欢",
+    "supplierToken": "1474539003675",
+    "telphone": "07361510"
+}
+
+############################################################
+url:http://172.16.2.227:8200/vas/supplier/query/suppliers?param={}
+请求方式：get
+供应商管理列表查询
+参数说明
+请求参数
+{
+    "page": 1,
+    "rows": 5,
+    "supplierCode": "111",
+    "supplierName": "任"
+}
+返回结果
+{
+    "rows": [
+        {
+            "applyExplain": "企业合伙人",
+            "businessNames": "联通充值|缴电费|缴煤气费",
+            "checkStatus": 1,
+            "checkTime": 1475114958000,
+            "checkTimeStr": "2016-09-29 10:09:18",
+            "company": "深圳市深海梦想合伙人有限公司",
+            "createTime": 1475114958000,
+            "createTimeStr": "2016-09-29 10:09:18",
+            "email": "469656844@qq.com",
+            "id": 1,
+            "mobile": "18676823505",
+            "supplierAreaDesc": "...",
+            "supplierCode": "111",
+            "supplierName": "任欢",
+            "supplierToken": "",
+            "telphone": "07363505"
+        }
+    ],
+    "total": 1
+}
+
+#######################################################################
+url:http://172.16.2.227:8200/vas/supplier/find/areas?param={}
+请求方式：get
+获取供应商服务的区域
+参数说明
+请求参数
+{
+    "param": {
+        "suuplierCode": 111
+    }
+}
+返回参数
+[
+    {
+        "areaShareRatio": 0,
+        "businessCode": "LTCZ",
+        "city": "长沙市",
+        "country": "宁乡县",
+        "countryCode": "123",
+        "countryName": "宁乡运营中心",
+        "createTime": 1474596727000,
+        "id": 1,
+        "plateformShareRatio": 0,
+        "province": "湖南省",
+        "shareWay": 1,
+        "supplierCode": "111",
+        "supplierOrder": 1,
+        "totalShareRatio": 0
+    },
+    {
+        "areaShareRatio": 0,
+        "businessCode": "YDCZ",
+        "city": "长沙市",
+        "country": "长沙县",
+        "countryCode": "123",
+        "countryName": "长沙县运营中心",
+        "createTime": 1474596727000,
+        "id": 2,
+        "plateformShareRatio": 0,
+        "province": "湖南省",
+        "shareWay": 1,
+        "supplierCode": "111",
+        "supplierOrder": 1,
+        "totalShareRatio": 0
+    }
+]
+
+#######################################################################
+url:http://172.16.2.227:8200/vas/supplier/get/supplierinfo?param={}
+请求方式：get
+查询供应商信息
+参数说明
+请求参数
+{
+    "param": {
+        "suuplierCode": 111
+    }
+}
+返回结果
+{
+    "applyExplain": "企业合伙人",
+    "businessCodes": [
+        "LTCZ",
+        "DJDF",
+        "JMQF"
+    ],
+    "businesseNamesStr": "联通充值|缴电费|缴煤气费",
+    "checkStatus": 1,
+    "checkTime": 1475118676000,
+    "checkTimeStr": "2016-09-29 11:11:16",
+    "company": "深圳市深海梦想合伙人有限公司",
+    "createTime": 1475118676000,
+    "createTimeStr": "2016-09-29 11:11:16",
+    "email": "469656844@qq.com",
+    "id": 1,
+    "mobile": "18676823505",
+    "supplierCode": "111",
+    "supplierName": "任欢",
+    "supplierToken": "222",
+    "telphone": "07363505"
+}
+
+#######################################################################
+url:http://172.16.2.227:8200/vas/supplier/update?param={}
+请求方式：post
+修改供应商信息
+参数说明
+请求参数
+{
+    "applyExplain": "完成增值服务项目，为农村提供便利服务",
+    "businessCodes": [
+        "DJSF",
+        "GHKD"
+    ],
+    "company": "深圳市深海梦想合伙人有限公司",
+    "email": "2318784005@qq.com",
+    "mobile": "18676823505",
+    "supplierCode": "111",
+    "supplierName": "任欢",
+    "telphone": "07361510"
+}
+返回结果
+{
+    "applyExplain": "企业合伙人",
+    "checkStatus": 1,
+    "checkTime": 1474596727000,
+    "company": "深圳市深海梦想合伙人有限公司",
+    "createTime": 1474596727000,
+    "email": "2318784005@qq.com",
+    "id": 1,
+    "mobile": "18676823505",
+    "supplierCode": "111",
+    "supplierName": "任欢",
+    "supplierToken": "222",
+    "telphone": "07361510"
+}
+
+#######################################################################
+url:http://172.16.2.227:8200/vas/supplier/checkout?param={}
+请求方式：post
+供应商审核
+参数说明
+请求参数
+{
+    "checkStatus": 2,
+    "supplierCode": 111
+}
+返回结果
+{
+    "code": 2200,
+    "content": "",
+    "data": 1,
+    "logResult": {
+        "apiList": [],
+        "code": 0,
+        "content": "",
+        "count": 0,
+        "endDate": 1474955269618,
+        "logType": "info",
+        "longtimes": 379,
+        "msg": "操作成功",
+        "startDate": 1474955269240,
+        "startTimes": 1474955269239,
+        "status": 200,
+        "uuid": "bb0c16d7e1914708b4afc45a3009647a"
+    },
+    "msg": "操作成功",
+    "status": 200,
+    "userInfo": {
+        "manager": false,
+        "sessionId": "auc_7153a788bf1e14937efcc43671d39828122cedd6",
+        "token": "auc_7153a788bf1e14937efcc43671d39828122cedd6"
+    }
+}
+
+#######################################################################
+url：http://172.16.2.227:8200/vas/supplier/business/add/area
+请求方式：post
+配置供应商业务的服务区域
+参数说明
+请求参数
+{
+    "businessCode": "LTCZ",
+    "supplierAreas": [
+        "127",
+        "128"
+    ],
+    "supplierCode": "111"
+}
+返回参数
+[
+    {
+        "businessCode": "LTCZ",
+        "city": "长沙市",
+        "country": "宁乡县",
+        "countryCode": "123",
+        "countryName": "宁乡运营中心",
+        "createTime": 1476082091553,
+        "createTimeStr": "2016-10-10 14:48:11",
+        "id": 15,
+        "province": "湖南省",
+        "supplierCode": "111",
+        "supplierOrder": 1
+    },
+    {
+        "businessCode": "LTCZ",
+        "city": "娄底市",
+        "country": "涟源市",
+        "countryCode": "125",
+        "countryName": "涟源市运营中心",
+        "createTime": 1476082091553,
+        "createTimeStr": "2016-10-10 14:48:11",
+        "id": 16,
+        "province": "湖南省",
+        "supplierCode": "111",
+        "supplierOrder": 2
+    }
+]
+
+#######################################################################
+url:http://172.16.2.227:8200/vas/area/supplier/areas?param={}
+请求方式：get
+查询服务业务的服务县域列表
+参数说明
+请求参数
+{
+    "businessCode": "LTCZ",
+    "city": "长沙市",
+    "countryCode": "123",
+    "countryName": "运营",
+    "page": 1,
+    "province": "湖南省",
+    "rows": 5
+}
+返回结果
+{
+    "rows": [
+        {
+            "businessCode": "LTCZ",
+            "businessName": "联通充值",
+            "city": "长沙市",
+            "country": "宁乡县",
+            "countryCode": "123",
+            "countryName": "宁乡运营中心",
+            "province": "湖南省",
+            "supplierStr": "1.深圳市深海梦想合伙人有限公司|2.深圳市华响世纪有限公司|3.深圳市永波科技有限公司|4.深圳市建东科技有限公司"
+        }
+    ],
+    "total": 1
+}
+
+#######################################################################
+url:http://172.16.2.227:8200/vas/area/suppliers/details?param={}
+请求方式：get
+查询县域的供应商详情列表
+参数说明
+请求参数
+{
+    "countryCode": 123
+}
+返回参数
+{
+    "businessCode": "LTCZ",
+    "businessName": "联通充值",
+    "city": "长沙市",
+    "countryCode": "123",
+    "countryName": "宁乡运营中心",
+    "province": "湖南省",
+    "suppliers": [
+        {
+            "supplierCode": "111",
+            "supplierName": "任欢",
+            "supplierOrder": 1
+        },
+        {
+            "supplierCode": "112",
+            "supplierName": "任欢",
+            "supplierOrder": 1
+        }
+    ]
+}
+
+#######################################################################
+url:http://172.16.2.227:8200/vas/area/supplier/update/order?param={}
+请求方式：post
+修改供应商在县域下的排序
+参数说明
+请求参数
+[
+    {
+        "businessCode": "DJDF",
+        "countryCode": "124",
+        "supplierCode": "111",
+        "supplierOrder": 1
+    }
+]
+返回结果
+[
+    {
+        "businessCode": "DJDF",
+        "city": "长沙市",
+        "country": "长沙县",
+        "countryCode": "124",
+        "countryName": "长沙县运营中心",
+        "createTime": 1474699425000,
+        "id": 2,
+        "province": "湖南省",
+        "supplierCode": "111",
+        "supplierOrder": 1
+    }
+]
+
+#################################
+url:http://172.16.2.227:8200/vas/business/suppliers?param={}
+请求方式：get
+查询服务业务所属供应商的列表
+请求参数
+{
+    "businessCode": "LTCZ",
+    "supplierName": "任"
+}
+返回参数
+[
+    {
+        "areaShareRatio": 0,
+        "businessCode": "LTCZ",
+        "createTime": 1474614000000,
+        "id": 1,
+        "platformShareRatio": 0,
+        "shareWay": 0,
+        "supplierCode": "111",
+        "supplierName": "任欢",
+        "totalShareRatio": 0
+    }
+]
+
+##########################################################################
+url:http://172.16.2.227:8200/vas/business/update/profit?param={}
+请求方式：post
+修改供应商利润分成
+请求参数
+{
+    "areaShareRatio": 0,
+    "businessCode": "LTCZ",
+    "plateformShareRatio": 6,
+    "shareWay": 1,
+    "supplierCode": "111",
+    "totalShareRatio": 10
+}
+返回参数
+{
+    "areaShareRatio": 0,
+    "businessCode": "LTCZ",
+    "createTime": 1474614000000,
+    "id": 1,
+    "plateformShareRatio": 6,
+    "shareWay": 1,
+    "supplierCode": "111",
+    "totalShareRatio": 10
+}
+
+#####################################################
+url:http://172.16.2.227:8200/vas/area/query/business?param={}
+请求方式：get
+查询县域店铺分成比例列表
+请求参数
+{
+    "countryCode": 123
+}
+返回结果
+[
+    {
+        "businessCode": "LTCZ",
+        "businessName": "联通充值",
+        "countryCode": "123",
+        "countryName": "宁乡运营中心",
+        "countryShareRatio": 0,
+        "storeShareRatio": 0
+    }
+]
+
+############################################################
+缴费单接口（屏端）
+############################################################
+url:http://172.16.2.227:8200/vas/charge/add?param={}
+请求方式：post
+新增订单接口
+请求参数
+{
+    "businessCode": "DJDF",
+    "chargeOrg": "湖南省常德市电力局",
+    "mobile": "18676823505",
+    "originalAmount": 50,
+    "realAmount": 60,
+    "rechargeUserCode": "123456",
+    "rechargeUserName": "任欢",
+    "storeCode": "48",
+    "supplierCode": "111"
+}
+返回结果
+{
+    "businessCode": "DJDF",
+    "businessName": "缴电费",
+    "chargeCode": "1475995544579",
+    "chargeOrg": "湖南省常德市电力局",
+    "city": "直辖区",
+    "costingAmount": 0,
+    "country": "朝阳区",
+    "countryCode": "118",
+    "countryName": "033c9888a76500000000",
+    "createTime": 1475995544614,
+    "createTimeStr": "2016-10-09 14:45:44",
+    "id": 4,
+    "mobile": "18676823505",
+    "originalAmount": 50,
+    "payStatus": 1,
+    "province": "北京市",
+    "realAmount": 60,
+    "rechargeUserAddr": "",
+    "rechargeUserCode": "123456",
+    "rechargeUserName": "任欢",
+    "refundStatus": 0,
+    "storeCode": "48",
+    "storeInfo": "{"contact":"李四","contactTel":"15800000000"}",
+    "storeName": "打石一路飞天网点",
+    "supplierCode": "111",
+    "supplierName": "任欢"
+}
+
+#######################################################################
+订单支付接口
+url:http://172.16.2.227:8200/vas/charge/add?param={}
+请求方式：post
+请求参数：
+返回结果：
+
+#######################################################################
+屏端订单查询接口
+url:http://172.16.2.227:8200/vas/charge/query?param={}
+请求方式：get
+请求参数：
+{
+    "page": 1,
+    "payStatus": 1,
+    "rows": 5,
+    "searchInfo": "18676823505",
+    "storeCode": "48"
+}
+返回结果：
+{
+    "rows": [
+        {
+            "businessCode": "DJDF",
+            "businessName": "缴电费",
+            "chargeCode": "1475995430453",
+            "chargeOrg": "湖南省常德市电力局",
+            "city": "直辖区",
+            "costingAmount": 0.00,
+            "country": "朝阳区",
+            "countryCode": "118",
+            "countryName": "033c9888a76500000000",
+            "createTime": 1475995431000,
+            "createTimeStr": "2016-10-09 14:43:51",
+            "id": 3,
+            "mobile": "18676823505",
+            "originalAmount": 50.00,
+            "payStatus": 1,
+            "province": "北京市",
+            "realAmount": 60.00,
+            "rechargeUserAddr": "",
+            "rechargeUserCode": "123456",
+            "rechargeUserName": "任欢",
+            "refundStatus": 0,
+            "storeCode": "48",
+            "storeInfo": "{"contact":"李四","contactTel":"15800000000"}",
+            "storeName": "打石一路飞天网点",
+            "supplierCode": "111",
+            "supplierName": "任欢"
+        },
+        {
+            "businessCode": "DJDF",
+            "businessName": "缴电费",
+            "chargeCode": "1475995544579",
+            "chargeOrg": "湖南省常德市电力局",
+            "city": "直辖区",
+            "costingAmount": 0.00,
+            "country": "朝阳区",
+            "countryCode": "118",
+            "countryName": "033c9888a76500000000",
+            "createTime": 1475995545000,
+            "createTimeStr": "2016-10-09 14:45:45",
+            "id": 4,
+            "mobile": "18676823505",
+            "originalAmount": 50.00,
+            "payStatus": 1,
+            "province": "北京市",
+            "realAmount": 60.00,
+            "rechargeUserAddr": "",
+            "rechargeUserCode": "123456",
+            "rechargeUserName": "任欢",
+            "refundStatus": 0,
+            "storeCode": "48",
+            "storeInfo": "{"contact":"李四","contactTel":"15800000000"}",
+            "storeName": "打石一路飞天网点",
+            "supplierCode": "111",
+            "supplierName": "任欢"
+        }
+    ],
+    "total": 2
+}
+
+#######################################################################
+屏端订单详情查询
+url:http://172.16.2.227:8200/vas/charge/details?param={}
+请求方式：get
+请求参数：
+{
+    "chargeCode": 3000
+}
+返回参数：
+{
+    "businessCode": "DJDF",
+    "businessName": "缴电费",
+    "chargeCode": "3000",
+    "chargeOrg": "湖南省常德市电力局",
+    "city": "常德市",
+    "costingAmount": 90.00,
+    "country": "安乡县",
+    "countryCode": "124",
+    "countryName": "安乡县运营中心",
+    "createTime": 1475920555000,
+    "createTimeStr": "2016-10-08 17:55:55",
+    "id": 1,
+    "mobile": "18676823505",
+    "originalAmount": 100.00,
+    "payStatus": 1,
+    "province": "湖南省",
+    "realAmount": 150.00,
+    "rechargeUserAddr": "三仙咀社区",
+    "rechargeUserCode": "000000101",
+    "rechargeUserName": "小欢",
+    "refundStatus": 0,
+    "storeCode": "tsh123456",
+    "storeInfo": "",
+    "storeName": "打石一路飞天网点",
+    "supplierCode": "111",
+    "supplierName": "任欢"
+}
+
+#####################################################
+获取缴费机构信息
+url:http://172.16.2.227:8200/vas/charge/get/organization/info?param={}
+请求方式：get
+请求参数：
+{
+    "businessCode": "DJDF",
+ }
+返回参数：
+{
+    "supplierCode": "100000",
+    "supplierToken": "b429d7cefe48d55e",
+    "unitInfos": [
+        {
+            "chargeOrgCode": "2634",
+            "chargeOrgName": "湖北省电力公司",
+            "payModel": 1,
+            "status": 1
+        }
+    ]
+}
+
+##############################################################
+获取用户缴费账单信息
+url:http://172.16.2.227:8200/vas/charge/get/bill/info?param={}
+请求方式：get
+请求参数：
+{
+    "chargeOrgCode": 2634,
+    "rechargeUserCode": 4050034644,
+    "supplierCode": 100000
+}
+返回参数：
+{
+    "account": "4050034644",
+    "bills": 752000,
+    "unitId": "2634",
+    "username": "张三",
+    "yearmonth": "none"
+}

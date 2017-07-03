@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>话费充值活动中奖名单</title>
+    <link rel="stylesheet" href="/static/h5/css/dropload.css">
+    <link rel="stylesheet" href="/static/h5/css/weui.min.css">
+    <link rel="stylesheet" href="/static/h5/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/static/h5/css/style.css"/>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .bottom-tip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: #FFFFFF;
+        }
+
+        .search-btn {
+            color: #F23030;
+            text-align: center;
+            width: 2rem;
+            font-size: 0.44rem;
+        }
+
+        .win-item {
+            font-size: 0.36rem;
+            padding: 0.1rem;
+            margin-top: 0.3rem;
+            background-color: #FFFFFF;
+            width: 100%;
+        }
+
+        .win-item-text {
+            font-size: 0.36rem;
+            line-height: 0.7rem;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
+        .input-phone-number {
+            border: none;
+            line-height: 1rem;
+            height: 1rem;
+            padding-left: 0.1rem;
+            display: inline-flex;
+            width: 70%;
+            font-size: 0.65rem;
+        }
+
+        .input-part {
+            flex-direction: row;
+            align-items: center;
+            display: flex;
+            background-color: #FFFFFF;
+            width: 8.2rem;
+            height: 1.35rem;
+            justify-content: space-between;
+        }
+
+        .title-bar {
+            border-bottom: 1px solid #d6d6d6;
+            background: #fff;
+            text-align: center;
+            width: 100%;
+            height: 1.44rem;
+        }
+
+        .navbar-fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+        }
+
+        .go-back {
+            font-size: 0.64rem;
+            line-height: 1.44rem;
+            text-align: center;
+            float: left;
+            height: 1.44rem;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            vertical-align: middle;
+            margin-left: 0.1rem;
+        }
+
+        .win-title {
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 1.44rem;
+            text-align: center;
+            line-height: 1.44rem;
+            font-size: 0.44rem;
+        }
+
+
+    </style>
+    <script src="/static/h5/js/adaptive.js"></script>
+    <script>
+        // 设计图宽度
+        window['adaptive'].desinWidth = 1080;
+        // body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'  750的设计图一般设置为28,640的设计图一般设置为24
+        window['adaptive'].baseFont = 32;
+        window['adaptive'].init();
+    </script>
+</head>
+
+<body style="background-color: #EEEEEE">
+
+<header class="title-bar navbar-fixed-top">
+    <div class="win-title">话费充值活动中奖名单</div>
+    <p class="go-back icon-fanhuianniu" onclick="javascript : history.go(-1);"></p>
+</header>
+
+<div id="content" style="position: absolute;width: 100%;overflow: hidden;margin-top: 1.44rem;">
+    <div style="margin-top:0.3rem">
+        <div style="background-color: #EEEEEE;height:1.35rem;display: flex;justify-content: space-between;align-items: center;margin-left: 0.3rem;margin-right: 0.3rem;">
+            <div class="input-part">
+                <p class="icon-sousuo" style="font-size: 0.44rem;padding-left: 0.15rem;">
+                <input class="input-phone-number" id="input_number" type="number" pattern="[0-9]*" placeholder="请输入手机号">
+                <p id="input_clear" class="weui-icon-cancel area" style="color: #AAAAAA; font-size: 0.5rem; display: none"></p>
+            </div>
+            <a href="javascript:void(0);" class="search-btn">搜索</a>
+        </div>
+
+        <div id="win-list">
+
+            <div id="list" style="background: #EEEEEE">
+                <!--<div class="win-item">
+                    <p class="win-item-text">充值中奖手机号：<span style="color: #FF4400;">13510212098</span>（幸运号：000191）
+                    </p>
+                    <p class="win-item-text">充值订单号：MPCZ20170417174010377629418</p>
+                    <p class="win-item-text">充值金额：30元</p>
+                    <p class="win-item-text">获得鼓励金：5元</p>
+                    <p class="win-item-text">充值网点名称：莱芜方下镇柳行沟村红旭商店</p>
+                    <p class="win-item-text">中奖日期：2017.04.25</p>
+                </div>
+                <div class="win-item">
+                    <p class="win-item-text">充值中奖手机号：<span style="color: #FF4400;">13510212098</span>（幸运号：000191）
+                    </p>
+                    <p class="win-item-text">充值订单号：MPCZ20170417174010377629418</p>
+                    <p class="win-item-text">充值金额：30元</p>
+                    <p class="win-item-text">获得鼓励金：5元</p>
+                    <p class="win-item-text">充值网点名称：莱芜方下镇柳行沟村红旭商店</p>
+                    <p class="win-item-text">中奖日期：2017.04.25</p>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>
+<script src="/static/h5/js/jquery.min.js"></script>
+<script src="/static/h5/js/jquery-weui.min.js"></script>
+<script src="/static/h5/js/dropload.min.js"></script>
+<script src="/js/h5/Utils/utils.js"></script>
+<script src="/js/h5/win_list.js"></script>

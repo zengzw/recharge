@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>增值服务供应商</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../js/supplier/list.js"></script>
+<style type="text/css">
+	
+</style>
+</head>
+<body style="margin: 0 20px;">
+	<div id="tb">
+		<div id="tsh-title">
+			<h3>
+				<span class="t1">增值服务供应商</span>
+			</h3>
+			<div class="title-border"></div>
+		</div>
+		<form class="tsh-toolbar" id="governmentSearchForm">
+			<label>
+				<span>服务商编号：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="服务商编号" id="supplierCode" name="supplierCode" />
+			</label>
+			<label>
+				<span>供应商名称：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="供应商名称" id="company" name="company" />
+			</label>
+			<label>
+				<a href="javascript:;" class="btn btn-1" id="search">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn btn-1" id="clear">清空</a>
+			</label>
+		</form>
+		<div style="padding-bottom: 10px;">
+			<label>
+				<a href="javascript:void(0);" class="btn btn-1" id="add" onclick="add()">新增供应商</a>
+			</label>
+		</div>
+	</div>
+	<table id="dataGrid" class="easyui-datagrid"></table>
+</body>
+</html>

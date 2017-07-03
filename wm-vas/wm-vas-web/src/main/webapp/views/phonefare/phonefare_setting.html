@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>话费设置</title>
+	<link href="../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    <!-- 自定义js -->
+    <script type="text/javascript" src="../../js/phonefare/common.js"></script>
+    <script type="text/javascript" src="../../js/phonefare/ordermanager/common.js"></script>
+	<script src="../../js/phonefare/phonefare.js"></script>
+</head>
+<body>
+	<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">话费设置</span>
+	        </h3>
+        <div class="title-border"></div>
+         </div>
+    <form class="tsh-toolbar">
+    	<!-- 运营商 -->
+    	<label style="margin-left: 20px;"><span>运营商:&nbsp;</span>
+    	 <select id="phone_operation" class="easyui-combobox" name="type" style="width:100px; height:30px;">   
+		    <option value="">全部</option>
+		</select>
+		</label>
+		
+		<!-- 面值  -->
+		<label style="margin-left: 20px;"><span>面值:&nbsp;</span>
+    	 <select id="face_value" class="easyui-combobox"  name="type" style="width:100px; height:30px;">   
+		    <option value="">全部</option>  
+		</select>
+		</label>
+		
+	    <!-- 销售区域  -->
+		<label style="margin-left: 20px;"><span>销售区域:&nbsp;</span>
+    	 <select id="sale_region" class="easyui-combobox" name="type" style="width:100px; height:30px;">   
+		    <option value="">全部</option>  
+		</select>
+		</label>
+		
+		<!-- 发布状态  -->
+		<label style="margin-left: 20px;"><span>发布状态:&nbsp;</span>
+    	 <select id="public_status" class="easyui-combobox" name="type" style="width:100px; height:30px;">   
+		    <option value="-1">全部</option>  
+		    <option value="1">已发布</option>
+		    <option value="0">未发布</option>  
+		</select>
+		</label>
+		
+		<label><a href="javascript:void(0);"  class="btn btn-1" onclick="search1()" ><i class="i-search"></i>查询</a></label>
+		<label><a href="javascript:;"  class="btn btn-1" id="search-phone-resetting"><i class="i-cancel"></i>清空</a></label>
+		<label><a class='btn btn-3'   href='javascript:;' id='export-excel' ><i class='i-export'></i>导出列表</a></label>
+    </form>
+		<div style="margin-bottom: 10px;">
+			<label style="margin-left: 20px;"><a href="../phonefare/phonefare_region_setting.html"  class="btn btn-2" id="sales-region-setting"><i class="i-add"></i>销售区域设置</a></label>
+			<label style="margin-left: 20px;"><a href="javascript:void(0);"  class="btn btn-1" onclick="bacthPublic(1)">批量发布</a></label>
+			<label style="margin-left: 20px;"><a href="javascript:void(0);"  class="btn btn-4" onclick="bacthPublic(0)">批量取消发布</a></label>
+		</div>
+	</div>
+	<table id="dataGrid" class="easyui-datagrid" ></table>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>手机号段库</title>
+	<link href="../../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="../../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    
+    <!-- 自定义js -->
+	<script type="text/javascript" src="../../../js/phonefare/common.js"></script>
+    <script type="text/javascript" src="../../../js/phonefare/ordermanager/common.js"></script>
+	<script src="../../../js/webHelper.js"></script>
+	<script type="text/javascript" src="../../../js/phonefare/mobilemanager/mobile_library.js"></script>
+</head>
+<body>
+<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">手机号段库</span>
+	        </h3>
+         <div class="title-border"></div>
+         </div>
+       <div class="tsh-toolbar">
+		    <label style="margin-left: 20px;"><span>运营商:&nbsp;</span>
+				<select id="id_mobile_supplier" class="easyui-combobox" style="width:100px; height:30px;">
+					<option value="-1">全部</option>
+					<option value='中国移动'>中国移动</option>
+					<option value='中国电信'>中国电信</option>
+					<option value='中国联通'>中国联通</option>
+				</select>
+		    </label>
+		   <label style="margin-left: 20px;"><span>省份:&nbsp;</span>
+			   <select id="province" class="easyui-combobox" prompt="请选择省份" style="width:150px; height:30px;">
+			   </select>
+		   </label>
+		   <label style="margin-left: 20px;"><span>城市:&nbsp;</span>
+			   <select class="easyui-combobox" id="city" prompt="请选择市区" style="width:100px; height:30px;">
+			   </select>
+		   </label>
+		   <label style="margin-left: 20px;"><span>号段前缀:&nbsp;</span>
+			   <input id="id_mobile_short" class="easyui-textbox" name="type" style="width:100px; height:30px;">
+		   </label>
+		   <label style="margin-left: 20px;"><span>号段:&nbsp;</span>
+			   <input id="id_mobile_num" class="easyui-textbox" name="type" style="width:100px; height:30px;">
+		   </label>
+
+		    <a class="btn btn-1" href="javascript:void(0);" onclick="mobilesearch()">查询</a>
+		    <a class="btn btn-5" href="javascript:void(0);" onclick="mobilesearchreset()">清空</a>
+           <br>
+    </div>
+	<a class="btn btn-2" href="javascript:void(0);" onclick="addNewMobileManager()">新增手机号段</a>
+	<a class="btn btn-4" href="javascript:void(0);" onclick="batchDeleteMobileManager()">批量删除所选</a>
+</div>
+
+<table id="id_mobile_manager_datagrid" class="easyui-datagrid" ></table>
+
+</body>
+</html>

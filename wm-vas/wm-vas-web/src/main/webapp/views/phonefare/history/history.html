@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>话费活动记录查看</title>
+	<link href="../../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="../../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    
+    <!-- 自定义js -->
+	<script type="text/javascript" src="../../../js/phonefare/common.js"></script>
+    <script type="text/javascript" src="../../../js/phonefare/ordermanager/common.js"></script>
+	<script src="../../../js/webHelper.js"></script>
+	<script type="text/javascript" src="../../../js/phonefare/history/history.js"></script>
+</head>
+<body>
+<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">话费活动记录查看</span>
+	        </h3>
+         <div class="title-border"></div>
+         </div>
+</div>
+<br>
+<div style="height:50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <font size="3">活动县域：<span id="areaNameString"></span></font>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="../../activity/list_activity.html" class="btn" id="returnId">返回</a>
+</div>
+
+<table id="id_history_datagrid" class="easyui-datagrid" style="width: 400px;"></table>
+
+</body>
+</html>

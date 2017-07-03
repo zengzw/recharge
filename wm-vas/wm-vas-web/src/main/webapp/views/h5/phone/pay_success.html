@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>话费充值</title>
+    <link rel="stylesheet" href="/static/h5/css/weui.min.css">
+    <link rel="stylesheet" href="/static/h5/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/static/h5/css/style.css"/>
+
+    <style>
+
+        .title-bar {
+            border-bottom: 1px solid #d6d6d6;
+            background: #fff;
+            text-align: center;
+            width: 100%;
+            height: 1.44rem;;
+        }
+
+        .navbar-fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+        }
+
+        .go-back {
+            font-size: 0.64rem;
+            line-height: 1.44rem;
+            text-align: center;
+            float: left;
+            height: 1.44rem;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            vertical-align: middle;
+            margin-left: 0.1rem;
+        }
+
+        .win-title {
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 1.44rem;
+            text-align: center;
+            line-height: 1.44rem;
+            font-size: 0.44rem;
+        }
+
+        .btn {
+            color: white;
+            text-decoration: none;
+            background-color: #D6D6D6;
+            line-height: 1.35rem;
+            font-size: 0.32rem;
+            cursor: pointer;
+            text-align: center;
+            width: 10.2rem;
+            height: 1.35rem;
+        }
+
+        .content-top {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background: #fff;
+            padding-top: 1.2rem;
+        }
+
+        .bottom-tip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+
+    </style>
+    <script src="/static/h5/js/adaptive.js"></script>
+    <script>
+        // 设计图宽度
+        window['adaptive'].desinWidth = 1080;
+        // body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'  750的设计图一般设置为28,640的设计图一般设置为24
+        window['adaptive'].baseFont = 32;
+        window['adaptive'].init();
+    </script>
+</head>
+
+<body style="background-color: #EEEEEE">
+
+    <header class="title-bar navbar-fixed-top">
+        <div class="win-title">话费充值</div>
+        <p class="go-back icon-fanhuianniu"></p>
+    </header>
+
+    <div style="position: absolute;margin-top: 1.44rem; text-align: center;width: 100%;">
+        <div class="content-top">
+            <img width="13%" style="padding-top: 0.2rem;" src="/static/h5/res/pay_success.png">
+            <div style="font-size: 0.32rem;color: #333333;margin-top: 0.3rem;">充值支付成功
+            </div>
+            <div style="font-size:0.32rem;color: #999;">10分钟内到账,请留意手机通知短信</div>
+        </div>
+        <div style="display: flex;flex-direction: column;justify-content: flex-start;align-items: flex-start;background: #fff;padding-top: 0.3rem;">
+            <div id="number" style="font-size: 0.32rem;color: #333333;margin-left: 0.15rem;padding: 0.15rem;">
+                充值号码：15820784340
+            </div>
+            <div id="value_face" style="font-size: 0.32rem;color: #333333;margin-left:0.15rem;padding: 0.15rem;">
+                充值面额：30元
+            </div>
+        </div>
+        <div class="bottom-tip">
+            <a class="btn" style="background-color: #F23030" id="btn-back">返回</a>
+        </div>
+        <div class="bottom-tip">
+            <a class="btn" id="btn-order" style="background-color: #FFFFFF;color: #F23030 ; border: 1px solid #F23030;"
+            >查看订单</a>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+<script src="/static/h5/js/jquery.min.js"></script>
+<script src="/static/h5/js/jquery-weui.min.js"></script>
+<script src="/js/h5/Utils/utils.js"></script>
+<script type="text/javascript">
+    var params = Tools.getQueryString("params");
+    $(function () {
+        var param = JSON.parse(params);
+        $('#number').html('充值号码：' + param.number);
+        $('#value_face').html('充值面额：' + param.valuaFace + '元');
+        $('#btn-back').on('click', function () {
+            location.href = "/views/h5/phone/recharge.html?token=" + sessionStorage.getItem('token') + "&openId=" + sessionStorage.getItem('openId');
+        });
+        $('.go-back').on('click', function () {
+            location.href = "/views/h5/phone/recharge.html?token=" + sessionStorage.getItem('token') + "&openId=" + sessionStorage.getItem('openId');
+        });
+        $('#btn-order').on('click', function () {
+            location.href = "/views/h5/phone/order_detail.html?token=" + sessionStorage.getItem('token') + "&orderCode=" + param.orderCode + "&openId=" + sessionStorage.getItem('openId');
+        });
+        var tempList = localStorage.getItem("PHONE_HISTORY_LIST");
+        var flag = true;
+        if (!Tools.isEmpty(tempList)) {
+            $.each(tempList, function (index, item) {
+                if (item == param.number) {
+                    flag = false;
+                    change(index,item);
+                }
+            })
+            if (flag) {
+                tempList.unshift(param.number);
+            }
+            if (tempList.length > 8) {
+                tempList = tempList.slice(0,8);
+            }
+        }else {
+            tempList = [param.number]
+        }
+        var change = function (index,item) {
+            var temp = tempList[0];
+            tempList[0] = item;
+            tempList[inde] = temp;
+        }
+
+        localStorage.setItem("PHONE_HISTORY_LIST", tempList);
+
+
+    });
+</script>

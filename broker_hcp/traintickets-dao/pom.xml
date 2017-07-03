@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+        <parent>
+        <groupId>com.tsh.traintickets</groupId>
+        <artifactId>traintickets</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>traintickets-dao</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.tsh.tomcat</groupId>
+            <artifactId>is-util</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dtds.platform</groupId>
+            <artifactId>platform-util</artifactId>
+            <version>${platform.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dtds.platform</groupId>
+            <artifactId>platform-aop</artifactId>
+            <version>${platform.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dtds.platform</groupId>
+            <artifactId>platform-data</artifactId>
+            <version>${platform.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tsh.traintickets</groupId>
+            <artifactId>traintickets-po</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
+</project>

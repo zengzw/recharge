@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>话费抽奖列表</title>
+	<link href="../../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="../../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    
+    <!-- 自定义js -->
+	<script type="text/javascript" src="../../../js/phonefare/common.js"></script>
+    <script type="text/javascript" src="../../../js/phonefare/ordermanager/common.js"></script>
+	<script src="../../../js/webHelper.js"></script>
+	<script type="text/javascript" src="../../../js/phonefare/free/oneyuan_free.js"></script>
+</head>
+<body>
+<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">话费抽奖列表</span>
+	        </h3>
+         <div class="title-border"></div>
+         </div>
+       <div class="tsh-toolbar">
+		    <label style="margin-left: 20px;"><span>订单编号:&nbsp;</span>
+				    <input class="easyui-textbox" id="id_order_code">
+		    </label>
+		   <label style="margin-left: 20px;"><span>幸运号:&nbsp;</span>
+			   <input class="easyui-textbox" id="id_lucky_number" style="width: 80px;">
+		   </label>
+		   <label style="margin-left: 20px;"><span>充值手机号:&nbsp;</span>
+			   <input class="easyui-textbox" id="id_charge_mobile" style="width: 120px;">
+		   </label>
+		   <label style="margin-left: 20px;"><span>充值面额:&nbsp;</span>
+			   <select id="id_charge_amount" class="easyui-combobox" name="type" style="width:100px; height:30px;">
+			   </select>
+		   </label>
+		   <label style="margin-left: 20px;"><span>中奖金额:&nbsp;</span>
+			   <select id="id_winning_amount" class="easyui-combobox" name="type" style="width:100px; height:30px;" prompt="全部">
+			   </select>
+		   </label>
+		   <label style="margin-left: 20px;"><span>下单时间:&nbsp;</span>
+			   <input class="easyui-datebox" editable="false" id="startDate" style="width: 130px; height: 30px;">-
+			   <input class="easyui-datebox" editable="false" id="endDate" style="width: 130px; height: 30px;">
+		   </label>
+		   <label style="margin-left: 20px;"><span>开奖时间:&nbsp;</span>
+			   <input class="easyui-datebox" editable="false" id="lottery_start_date" style="width: 130px; height: 30px;">-
+			   <input class="easyui-datebox" editable="false" id="lottery_end_date" style="width: 130px; height: 30px;">
+		   </label> <br>
+		   <label style="margin-left: 20px;"><span>中奖类型:&nbsp;</span>
+			   <select id="id_lottery_type" class="easyui-combobox" name="type" style="width:100px; height:30px;">
+				   <option value=''>全部</option>
+				   <option value='D'>代金券</option>
+				   <option value='G'>鼓励金</option>
+				   <option value='M'>免单</option>
+			   </select>
+		   </label>
+
+		  
+		   <label style="margin-left: 20px;"><span>中奖代金券码:&nbsp;</span>
+			   <input class="easyui-textbox" id="id_cash_coupon" style="width: 120px;">
+		   </label>
+		   <label style="margin-left: 20px;"><span>开奖状态:&nbsp;</span>
+			   <select id="id_lottery_status" class="easyui-combobox" name="type" style="width:100px; height:30px;">
+				   <option value="-1">全部</option>
+				   <option value='0'>未开奖</option>
+				   <option value='1'>已中奖</option>
+				   <option value='2'>未中奖</option>
+			   </select>
+		   </label>
+
+		   <label style="margin-left: 20px;"><span>所属区域:&nbsp;</span>
+			   <select name="province" id="province" prompt="请选择省份" class="easyui-combobox" style="height:28px;width:100px;">
+			   </select>
+			   <select name="city" id="city" prompt="请选择市区" class="easyui-combobox" style="height:28px;width:100px;">
+			   </select>
+			   <select name="area" id="area" prompt="请选择县域中心" class="easyui-combobox" style="height:28px;width:180px;">
+			   </select>
+			   <select name="store" id="store" prompt="请选择网点" class="easyui-combobox" style="height:28px;width:180px;">
+			   </select>
+		   </label>
+		    <a class="btn btn-1" href="javascript:void(0);" onclick="freesearch()">查询</a>
+		    <a class="btn btn-5" href="javascript:void(0);" onclick="resetSearch()">清空</a>
+		    <a class="btn" href="javascript:void(0);" onclick="exportExcel()">导出列表</a>
+           <br>
+    </div>
+</div>
+
+<table id="id_order_change_datagrid" class="easyui-datagrid" ></table>
+</body>
+</html>

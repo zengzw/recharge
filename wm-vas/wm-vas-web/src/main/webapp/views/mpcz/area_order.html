@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>话费充值订单报表(县域)</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script type="text/javascript" src="../../js/phonefare/common.js"></script>
+<script src="../../static/js/util.js"></script>
+<script src="../../static/js/mpcz/area_order.js"></script>
+<script src="../../js/webHelper.js"></script>
+</head>
+<body style="margin: 0 20px;">
+	<div id="tb">
+		<div id="tsh-title">
+			<h3>
+				<span class="t1">话费充值订单报表</span>
+			</h3>
+			<div class="title-border"></div>
+		</div>
+		<form class="tsh-toolbar" id="governmentSearchForm">
+			<label>
+				<span>订单编号：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入订单编号" id="phoneOrderCode" name="phoneOrderCode" />
+			</label>
+			<label>
+				<span>支付时间：</span>
+				<input class="easyui-datebox" editable="false" id="startDate" style="width: 170px; height: 30px;">-
+				<input class="easyui-datebox" editable="false" id="endDate" style="width: 170px; height: 30px;">
+			</label>
+			<label>
+				<span>充值手机号：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入充值手机号" id="memberMobile" name="memberMobile" />
+			</label>
+			<label id="categoryLable">订单状态：
+				<select name="payStatus" id="payStatus" class="easyui-combobox" prompt="请选择订单状态" data-options="editable:false" style="height:28px;">
+					<option value = -1 >请选择</option>
+					<option value = 1 >待支付</option>
+					<option value = 2 >支付中</option>
+					<option value = 3 >支付成功</option>
+					<option value = 4 >充值中</option>
+					<option value = 5 >充值成功</option>
+					<option value = 6 >扣款失败</option>
+					<option value = 7 >充值失败</option>
+					<option value = 16 >支付异常</option>
+				</select>
+
+			</label>
+			<label>
+				<span>充值联系人姓名：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入充值联系人姓名" id="payUserName" name="payUserName"/>
+			</label>
+			<label>
+				<span>充值联系人电话：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入充值联系人电话" id="mobile" name="mobile" />
+			</label>
+			
+			<label id="categoryLable">充值金额：
+				<select name="saleAmount" id="saleAmount" class="easyui-combobox" prompt="请选择充值金额" data-options="editable:false" style="width:80px;height:28px;">
+				</select>
+				
+				<!-- 1：待支付。2：支付中。3：缴费中。4：交易成功，5：交易失败，6：交易关闭，7：支付异常，8，缴费异常，9，撤销,10扣款成功 -->
+				
+				<!-- <select name="payStatus" id="payStatus" class="easyui-combobox" prompt="请选择订单状态" data-options="editable:false" style="height:28px;">
+					<option value = -1 >请选择</option>
+					<option value = 1 >充值中</option>
+					<option value = 2 >交易成功</option>
+					<option value = 3 >交易失败</option>
+				</select> -->
+				
+			</label>
+			<label id="categoryLable">退款状态：
+				<select name="refundStatus" id="refundStatus" class="easyui-combobox" data-options="editable:false" style="height:28px;">
+					<option value = -1 >请选择</option>
+					<option value = 3 >待退款</option>
+					<option value = 12 >退款中</option>
+					<option value = 13 >退款成功</option>
+					<option value = 15 >退款失败</option>
+				</select>
+			</label>
+			<label id="categoryLable">下单网点：
+				<select name="shopName" id="shopName" prompt="请选择网点" class="easyui-combobox" style="height:28px;width:180px;">
+					<!-- <option value="">-请选择-</option> -->
+				</select>
+			</label>
+			<label>
+				<a href="javascript:;" class="btn btn-1" id="search">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn" id="clear">清空</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn" id="export">导出Excel</a>
+			</label>
+		</form>
+	</div>
+	<table id="dataGrid" class="easyui-datagrid"></table>
+</body>
+</html>

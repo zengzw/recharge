@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://172.16.1.194:3306/public-server</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <mapping class="com.tsh.vas.model.ChargeInfo"/>
+        <mapping class="com.tsh.vas.model.ChargePaymentInfo"/>
+        <mapping class="com.tsh.vas.model.BusinessInfo"/>
+        <mapping class="com.tsh.vas.model.SupplierAreaBusiness"/>
+        <mapping class="com.tsh.vas.model.SupplierAreaBusiness"/>
+        <mapping class="com.tsh.vas.model.SupplierInfo"/>
+        <mapping class="com.tsh.vas.model.SupplierBusiness"/>
+    </session-factory>
+</hibernate-configuration>

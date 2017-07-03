@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>区域销售设置</title>
+	<link href="../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    
+    <!-- 自定义js -->
+    <script type="text/javascript" src="../../js/phonefare/common.js"></script>
+    <script type="text/javascript" src="../../js/phonefare/phonefareRegion.js">
+    </script>
+    <!-- 自定义css -->
+    <style type="text/css">
+		.tsh-toolbar div label {
+	        height: 30px;
+	        padding: 5px;
+	        display: inline-block;
+	    }
+	    
+	    .dialog-button {
+        position: relative;
+        padding: 5px;
+        text-align: center;
+        bottom:0px;
+    }
+    
+    .div-inline {
+    	display:inline;
+    }
+    
+    .btn-8 {
+    	cursor:not-allowed;
+        color:#E5E0E0;
+        text-decoration:none;
+    }
+     
+    	div.tabs-scroller-left{
+    	    height:25px !important;
+    	}
+    	div.tabs-scroller-right{
+    	    height:25px !important;
+    	}
+	</style>
+</head>
+<body>
+	<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">区域销售设置</span>
+	        </h3>
+         <div class="title-border"></div>
+         </div>
+   
+    <div class="tsh-toolbar">
+       <label style="margin-left: 5px;  font-size:15px;" ><span>话费规格选择:</span></label>
+        <div id="ck_company_arr" style="margin-left: 5px;">
+            <label style="width: 100px;text-align: center">运营商</label>
+	    </div>
+		<br>
+	    <div id="phonefare_region_facevalue">
+            <label style="width: 100px;text-align: center">面值</label>
+            <span></span>
+			<a href="javascript:void(0);" class="btn btn-1" onclick="faceValueSetting()">设置</a>
+	    </div>
+
+        <div >
+            <label style="width: 100px;text-align: center">销售区域</label>
+            <input class="easyui-textbox"  name="addSaleRegion" id="add_sale_region" style="height:30px;width:200px;">
+            <a href="javascript:void(0);" class="btn btn-2" onclick="editSaleRegion()"><i class="i-add"></i>编辑</a>
+            <a href="javascript:void(0);"  class="btn btn-1" onclick="addSaleRegion()"><i class="i-search"></i>添加</a>
+        </div>
+    </div>
+    <br>
+    <div style="width:1000px;height:50px;">
+    	<div style="margin-left: 5px;float:left;"><label  style="font-size:15px;" ><span>列表快捷操作:&nbsp;</span></label>
+    		<a href="javascript:void(0);" onclick="batchDel()" class="btn btn-4">批量删除</a>
+    		<a href="javascript:void(0);" onclick="batchUpdate()" class="btn-1 btn">批量同步销售价</a>
+    	</div>
+    </div>
+    <div style="width:1000px;height:29px;">
+    	<div style="margin-left: 5px;float:left;"><label  style="font-size:15px;" ><span>区域销售价设置:&nbsp;</span></label></div>
+        <div id="tt" class="easyui-tabs" style="width:800px;height:28px;float:left;">
+    	
+        </div>
+    </div>
+   </div>
+    <table id="dataGrid2" class="easyui-datagrid" ></table>
+    
+   <!-- 面值方案设置 -->
+   <div id="face_value_setting" ></div>
+   
+   <!-- 添加销售区域 -->
+   <div id="add_sale_region_div" ></div>
+   
+   <!-- 区域价设置 -->
+   <div id="region_sale_price_setting"></div>
+   
+ 
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>业务地区查看</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../static/js/util.js"></script>
+<script src="../../js/supplier/area_list.js"></script>
+<script src="../../js/webHelper.js"></script>
+
+<style type="text/css">
+	
+</style>
+<script type="text/javascript">
+	//加载省
+	function initProvince() {
+		  $.ajax({
+			  url:WebHelper.GetAddress(),
+			  data:{cid:0},
+			  dataType:'jsonp',
+			  async:false,
+			  success:function(data){
+				  $('#province').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'name',
+					  editable:false,
+					  onChange:function(){
+						  var provinceId = $('#province').combobox('getValue');
+						  initCity(provinceId);
+					  }
+				  });
+				  
+			  }
+		  });
+	}
+	// 加载市
+	 function initCity(provinceId){
+		  $.ajax({
+			  url:WebHelper.GetAddress(),
+			  data:{cid:provinceId},
+			  dataType:'jsonp',
+			  async:false,
+			  success:function(data){
+				  $('#city').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'name',
+					  editable:false,
+					  onChange:function(){
+						  var cityId =  $('#city').combobox('getValue');
+						  initArea(cityId);
+					  }
+				  });
+			  }
+		  });
+	  }
+	
+	 // 加载县域列表
+	  function initArea(cityId){
+		  var province = $('#province').combobox('getText');
+		  var city = $('#city').combobox('getText');
+		  $.ajax({
+			  url:'../../common/queryAreasByProvinceAndCityAndArea.do',
+			  data:{
+				  	provinceName:province,
+				  	cityName:city
+			  },
+			  async:false,
+			  cache:false,
+			  processData:true, // 转换data成查询字符串。默认值为true
+			  success:function(data){
+				  $('#area').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'areaName',
+					  editable:false
+				  });
+			  }
+		  });
+	 }
+	 
+	$(function(){
+		initProvince();
+		$("#currentCompany").text(company);
+		//返回
+		$("#returnId").on('click',function(){
+			location.href = 'list.html';
+		});
+	})
+</script>
+</head>
+<body style="margin: 0 20px;">
+	<div id="tb">
+		<div id="tsh-title">
+			<h3>
+				<span class="t1">增值服务供应商业务地区查看</span>
+			</h3>
+			<div class="title-border"></div>
+			
+		</div>
+		<div>
+			<span>当前供应商：</span>
+			<span id="currentCompany"></span>
+		</div>
+		<form class="tsh-toolbar" id="governmentSearchForm" style="margin-top: 30px;">
+			<label id="categoryLable">业务类型：
+				<select name="businessCode" id="businessCode" prompt="请选择业务类型" data-options="editable:false" class="easyui-combobox" style="height:28px;width:100px;">
+					<option value="">-请选择-</option>
+					<option value="DJDF">缴电费</option>
+					<option value="HCP">火车票</option>
+					<option value="MPCZ">话费充值</option>
+				</select>
+			</label>
+			<label id="categoryLable">省市：
+				<select name="province" id="province" prompt="请选择省份" class="easyui-combobox" style="height:28px;width:100px;">
+					<!-- <option value="">-请选择-</option> -->
+				</select>
+				<select name="city" id="city" prompt="请选择市区" class="easyui-combobox" style="height:28px;width:100px;">
+					<!-- <option value="">-请选择-</option> -->
+				</select>
+			</label>
+			<label id="categoryLable">县域中心：
+				<select name="area" id="area" prompt="请选择县域中心" class="easyui-combobox" style="height:28px;width:180px;">
+					<!-- <option value="">-请选择-</option> -->
+				</select>
+			</label>
+			<label>
+				<span>县域名称：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入县域名称" id="countryName" name="countryName" />
+			</label>
+			<label>
+				<a href="javascript:;" class="btn btn-1" id="search">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn btn-1" id="clear">清空</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn" id="returnId">返回</a>
+			</label>
+		</form>
+	</div>
+	<table id="dataGrid" class="easyui-datagrid"></table>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <title>增值服务地区优先级设置</title>
+    <link href="../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    <script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../../static/tsh/1.0.0/plugins/others/webuploader-0.1.5/webuploader.nolog.min.js"></script>
+    <script src="../../static/js/util.js"></script>
+    <script src="../../js/supplier/service_area_priority_setting.js"></script>
+    <style>
+        .form td {
+            padding: 10px 0
+        }
+    </style>
+    <script type="text/javascript">
+
+        var jsonStr = '';
+        var noChangeSerialNumber = ''; //未改变的序列
+        var changeSerialNumber = ''; //已改变的序列
+
+        var supplierCode = $.acceptParam("supplierCode");
+        var businessCode = $.acceptParam("businessCode");
+        var countryCode = $.acceptParam("countryCode");
+
+
+        /**
+         * 重载表格
+         */
+        function reloadGrid() {
+            $('#tt').datagrid('reload');
+        }
+
+        function getRowByIndex(index) {
+            var row = $('#tt').datagrid('getData').rows[index];
+            return row;
+        }
+        /**
+         * 上移
+         * @param id
+         * @param sortField
+         * @param index
+         */
+        function moveUp(id, sortField, index) {
+            var row = getRowByIndex(index - 1);
+            //当前行的sortField
+            //上一行的sortField
+            var sortFieldUp = row.supplierOrder;
+            console.log(id);
+            console.log(sortField);
+            console.log(row.supplierOrder);
+            console.log(index);
+            $.ajax({
+                type: 'post',
+                url: '../../vas/area/supplier/moveUp',
+                async: false,
+                data: {
+                    id: id,
+                    sortField: sortField,
+                    sortFieldUp: sortFieldUp
+                },
+                success: function (result) {
+                    //show('info','上移成功!');
+                }
+            });
+            reloadGrid();
+        }
+        /**
+         * 下移
+         * @param id
+         * @param sortField
+         * @param index
+         */
+        function moveDown(id, sortField, index) {
+            var row = getRowByIndex(index + 1);
+            //当前行的sortField
+            //下一行的sortField
+            var sortFieldDown = row.supplierOrder;
+            console.log(id);
+            console.log(sortField);
+            console.log(row.supplierOrder);
+            console.log(index);
+            $.ajax({
+                type: 'post',
+                url: '../../vas/area/supplier/moveDown',
+                async: false,
+                data: {
+                    id: id,
+                    sortField: sortField,
+                    sortFieldDown: sortFieldDown
+                },
+                success: function (result) {
+                    //show('info','下移成功!');
+                }
+            });
+            reloadGrid();
+        }
+        /**
+         * 获取表格当前页的行
+         * @returns
+         */
+        function getRowsCount() {
+            var rows = $('#tt').datagrid('getRows');
+            return rows.length;
+        }
+
+        $(function () {
+            $("#returnId").on('click', function () {
+                location.href = 'area_priority.html';
+            });
+
+            $.ajax({
+                url: '../../vas/area/supplier/details',
+                type: 'GET',
+                data: {
+                    'businessCode': businessCode,
+                    'countryCode': countryCode
+                },
+                success: function (data) {
+                    var returnData = data.data;
+                    $('#businessName').text(returnData.businessName);
+                    $('#province').text(returnData.province);
+                    $('#city').text(returnData.city);
+                    $('#countryName').text(returnData.countryName);
+                }
+            });
+
+            $('#tt').datagrid({
+                url: '../../vas/area/supplier/details',
+                striped: false,
+                fitColumns: true,
+                singleSelect: true,
+                rownumbers: false,
+                //pagination:true,
+                method: "GET",
+                //rownumbers:true,
+                //pageList: [10, 20, 50],
+                pageSize: 10,
+                queryParams: {
+                    'businessCode': businessCode,
+                    'countryCode': countryCode
+                },
+                loadFilter: function (data) {
+                    return data.data.suppliers;
+                },
+                columns: [[
+                    {field: 'supplierOrder', title: '序号', width: 50},
+                    {field: 'company', title: '增值服务供应商', width: 200},
+                    {field: 'supplierCode', title: '增值服务供应商编号', width: 200},
+                    {
+                        field: 'cz',
+                        title: '操作',
+                        align: 'center',
+                        width: 100,
+                        fitColumns: true,
+                        formatter: function (value, data, index) {
+                            var temp = "";
+                            var line = index + 1;
+                            var pageSize = getRowsCount();
+                            var temp = "";
+                            if (line == 1 && line != pageSize) {
+                                temp += '<a class="btn btn-l" href="javascript:;" onclick="moveDown(' + data.id + ',' + data.supplierOrder + ',' + index + ')"><i class="i-op i-op-edit"></i>下移</a>';
+                            } else if (line == pageSize && line != 1) {
+                                temp += '<a class="btn btn-l" href="javascript:;" onclick="moveUp(' + data.id + ',' + data.supplierOrder + ',' + index + ')"><i class="i-op i-op-edit"></i>上移</a>';
+                            } else if (line == 1 && line == pageSize) {
+                                temp += '';
+                            } else {
+                                temp += '<a class="btn btn-l" href="javascript:;" onclick="moveUp(' + data.id + ',' + data.supplierOrder + ',' + index + ')"><i class="i-op i-op-edit"></i>上移</a>';
+                                temp += '<a class="btn btn-l" href="javascript:;" onclick="moveDown(' + data.id + ',' + data.supplierOrder + ',' + index + ')"><i class="i-op i-op-edit"></i>下移</a>';
+                            }
+                            return temp;
+                        }
+                    }
+                ]],
+            });
+        });
+
+        function move(e, target, isUp) {
+            var $view = $(target).closest('div.datagrid-view');
+            var index = $(target).closest('tr.datagrid-row').attr('datagrid-row-index');
+            var $row = $view.find('tr[datagrid-row-index=' + index + ']');
+
+            if (isUp) {
+                $row.each(function () {
+                    $(this).prev().before($(this));
+                });
+            } else {
+                $row.each(function () {
+                    $(this).before($(this).next());
+                });
+            }
+            $row.removeClass('datagrid-row-over');
+            e.stopPropagation();
+        }
+    </script>
+</head>
+<body style="margin-left:30px; width:900px;">
+<div id="tb">
+    <div id="tsh-title">
+        <h3>
+            <span class="t1">增值服务地区优先级设置</span>
+        </h3>
+        <div class="title-border"></div>
+    </div>
+    <div style="line-height:40px;">
+        <div>
+            <label>增值服务类型：</label>
+            <span id="businessName"></span>
+        </div>
+        <div>
+            <label>省：</label>
+            <span id="province"></span>
+        </div>
+        <div>
+            <label>市：</label>
+            <span id="city"></span>
+        </div>
+        <div>
+            <label>县域中心：</label>
+            <span id="countryName"></span>
+        </div>
+        <div>
+            <label>服务供应商优先级排序：</label>
+            <table id="tt"></table>
+        </div>
+        <div>
+            <a href="javascript:void(0)" class="btn" id="returnId">返回</a>
+        </div>
+    </div>
+</div>
+</body>

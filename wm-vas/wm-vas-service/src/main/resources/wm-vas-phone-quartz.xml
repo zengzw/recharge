@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+    
+    
+	<!--  一直充值中的定时器，5分钟刷新一次 -->
+  <!--   <bean id="phoneRechargeingOrderTimer" class="com.tsh.vas.phone.timer.RechargeCallBackTimer"/>
+    <bean id="phoneRechargeingOrderJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="vas_phone_orderrechargeing_group"/>
+        <property name="name" value="vas_phone_orderrechargeing_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="phoneRechargeingOrderTimer"/>
+        <property name="targetMethod" value="start"/>
+    </bean>
+    <bean id="vasPhoneRechargingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="phoneRechargeingOrderJob"/>
+        <property name="cronExpression" value="0 */5 * * * ?"/>
+    </bean>
+     -->
+    
+    <!-- 一直退款中的定时器，2分钟刷新一次 -->
+    <bean id="phoneUnrefundTimer" class="com.tsh.vas.phone.timer.PhoneUnRefundOrderTimer"/>
+    <bean id="phonUnrefundingJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="vas_phone_unrefund_group"/>
+        <property name="name" value="vas_phone_refund_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="phoneUnrefundTimer"/>
+        <property name="targetMethod" value="start"/>
+    </bean>
+    <bean id="vasPhoneUnRefundTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="phonUnrefundingJob"/>
+        <property name="cronExpression" value="0 */2 * * * ?"/>
+    </bean>
+
+    
+    
+    <!-- 故乡 支付中30分钟定时器，2分钟刷新一次 -->
+    <bean id="rechargePaddingTimer" class="com.tsh.vas.phone.timer.RechargePaddingTimer"/>
+    <bean id="rechargePaddingJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="vas_phone_padding_group"/>
+        <property name="name" value="vas_phone_padding_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="rechargePaddingTimer"/>
+        <property name="targetMethod" value="start"/>
+    </bean>
+    <bean id="vasPhoneRechargePaddingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="rechargePaddingJob"/>
+        <property name="cronExpression" value="0 */2 * * * ?"/>
+    </bean>
+
+
+    <bean id="phoneOrderInfoScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="vasPhoneUnRefundTrigger"/>
+                <ref bean="vasPhoneRechargePaddingTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="com.github.ltsopensource.spring.quartz.QuartzLTSProxyBean">
+        <property name="clusterName" value="${clusterName}"/>
+        <property name="registryAddress" value="${registryAddress}"/>
+        <property name="nodeGroup" value="vas_phone_quartz_group"/>
+        <property name="configs">
+            <props>
+                <prop key="job.fail.store">mapdb</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

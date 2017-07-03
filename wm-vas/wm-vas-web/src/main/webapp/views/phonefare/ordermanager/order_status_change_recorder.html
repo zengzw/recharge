@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>订单状态变更记录</title>
+	<link href="../../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">生活服务订单状态变更记录</span>
+	        </h3>
+         <div class="title-border"></div>
+         </div>
+       <div class="tsh-toolbar">
+       <form action="" id="searchForm">
+		   <label style="margin-left: 20px;"><span>订单类型:&nbsp;</span>
+		    	 <select id="id_order_type" class="easyui-combobox" name="orderType" style="width:100px; height:30px;">   
+				    <option value=''>--请选择--</option>   
+				    <option value='MPCZ'>话费充值</option>   
+				    <option value='DJDF'>缴电费</option>   
+				    <option value='HCP'>火车票</option>
+				 </select>
+			</label>
+		    <label style="margin-left: 20px;"><span>订单号&nbsp;</span>
+				    <input class="easyui-textbox" id="id_order_no" name="orderNo">
+		    </label>
+		  
+		    <a class="btn btn-1" href="javascript:void(0);" id="search">查询</a>
+		    <a class="btn btn-2" href="javascript:void(0);" id="reset">清空</a>
+		    <a class="btn" href="javascript:void(0);" id="export">导出列表</a>
+		      </form>
+    </div>
+</div>
+<table id="id_order_change_datagrid" class="easyui-datagrid" ></table>
+  
+    <script src="../../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    
+    <!-- 自定义js -->
+    <script type="text/javascript"  src="/static/tsh/common/commonTools.js" ></script>
+    <script type="text/javascript" src="/js/phonefare/ordermanager/common.js"></script>
+    <script type="text/javascript" src="/js/phonefare/ordermanager/orderchangerecorder.js"></script>
+</body>
+</html>

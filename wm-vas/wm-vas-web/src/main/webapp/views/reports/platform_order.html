@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>增值服务订单报表(平台)</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../js/supplier/platform_order_list.js"></script>
+<script src="../../static/js/util.js"></script>
+<script src="../../js/webHelper.js"></script>
+</head>
+<body style="margin: 0 20px;">
+	<div id="tb">
+		<div id="tsh-title">
+			<h3>
+				<span class="t1">增值服务订单报表</span>
+			</h3>
+			<div class="title-border"></div>
+		</div>
+		<form class="tsh-toolbar" id="governmentSearchForm">
+			<label id="categoryLable">增值服务类型：
+				<select name="level1" id="level1" prompt="请选增值服务类型" class="easyui-combobox" style="height:28px;width:100px;">
+					
+				</select>
+			</label>
+			<!-- <label id="categoryLable">业务分类：
+				<select name="level2" id="level2" prompt="请选业务分类" class="easyui-combobox" style="height:28px;width:100px;">
+					
+				</select>
+			</label> -->
+			<label>
+				<span>订单编号：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入订单编号" id="chargeCode" name="chargeCode" />
+			</label>
+			<label>
+				<span>下单时间：</span>
+				<input class="easyui-datebox" editable="false" id="startDate" style="width: 170px; height: 30px;">-
+				<input class="easyui-datebox" editable="false" id="endDate" style="width: 170px; height: 30px;">
+			</label>
+			<label id="categoryLable">订单状态：
+				<select name="payStatus" id="payStatus" class="easyui-combobox" prompt="请选择订单状态" data-options="editable:false" style="height:28px;">
+					<option value = -1 >请选择</option>
+					<option value = 1 >待支付</option>
+					<option value = 2 >支付中</option>
+					<option value = 3 >缴费中</option>
+					<option value = 4 >交易成功</option>
+					<option value = 5 >交易失败</option>
+					<option value = 6 >交易关闭</option>
+					<option value = 7 >支付异常</option>
+					<option value = 8 >缴费异常</option>
+					<option value = 9 >撤销</option>
+					<option value = 10 >扣款成功</option>
+				</select>
+				
+				<!-- 1：待支付。2：支付中。3：缴费中。4：交易成功，5：交易失败，6：交易关闭，7：支付异常，8，缴费异常，9，撤销,10扣款成功 -->
+				
+				<!-- <select name="payStatus" id="payStatus" class="easyui-combobox" prompt="请选择订单状态" data-options="editable:false" style="height:28px;">
+					<option value = -1 >请选择</option>
+					<option value = 1 >充值中</option>
+					<option value = 2 >交易成功</option>
+					<option value = 3 >交易失败</option>
+				</select> -->
+				
+			</label>
+			<label>
+				<span>充值缴费账号：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入充值缴费账号" id="rechargeUserCode" name="rechargeUserCode" />
+			</label>
+			<label id="categoryLable">所属区域：
+				<select name="province" id="province" prompt="请选择省份" class="easyui-combobox" style="height:28px;width:100px;">
+					<!-- <option value="">-请选择-</option> -->
+				</select>
+				<select name="city" id="city" prompt="请选择市区" class="easyui-combobox" style="height:28px;width:100px;">
+					<!-- <option value="">-请选择-</option> -->
+				</select>
+				<select name="countryName" id="countryName" prompt="请选择县域中心" class="easyui-combobox" style="height:28px;width:180px;">
+					<!-- <option value="">-请选择-</option> -->
+				</select>
+			</label>
+			<label>
+				<span>服务供应商：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入服务供应商" id="supplierName" />
+			</label>
+			<label id="categoryLable">退款状态：
+				<select name="refundStatus" id="refundStatus" class="easyui-combobox" data-options="editable:false" style="height:28px;">
+					<option value = -1 >请选择</option>
+					<option value = 1 >退款中</option>
+					<option value = 2 >退款成功</option>
+					<option value = 3 >退款失败</option>
+				</select>
+			</label>
+			<label>
+				<span>缴费户主姓名：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入缴费户主姓名" id="rechargeUserName" name="rechargeUserName" />
+			</label>
+			<label>
+				<span>充值缴费联系人电话：</span>
+				<input class="easyui-textbox" style="width: 170px; height: 30px;" prompt="请输入充值缴费联系人电话" id="memberMobile" name="memberMobile" />
+			</label>
+			<label>
+				<a href="javascript:;" class="btn btn-1" id="search">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn" id="clear">清空</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:;" class="btn" id="export">导出Excel</a>
+			</label>
+		</form>
+	</div>
+	<table id="dataGrid" class="easyui-datagrid"></table>
+</body>
+</html>

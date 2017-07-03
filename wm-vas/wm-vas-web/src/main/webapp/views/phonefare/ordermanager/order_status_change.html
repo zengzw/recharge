@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>订单状态变更</title>
+	<link href="../../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+	<link href="../../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="../../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+
+
+    <!-- 自定义js -->
+     <script type="text/javascript" src="../../../js/phonefare/ordermanager/common.js"></script>
+    <script type="text/javascript" src="../../../js/phonefare/ordermanager/orderstatuschange.js"></script>
+
+    <style type="text/css">
+
+        table {
+            border-collapse:collapse;
+        }
+
+        .class_table_title1, .class_table_title2{
+            background:#f2f7fd;
+        }
+        td {
+            border:2px solid #f2f7fd;
+            font-size:14px;
+        }
+
+        label {
+            font-family:"微软雅黑";
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration:underline
+        }
+
+        .textbox .textbox-text {
+            font-size: 14px;
+        }
+
+        .dialog-button {
+            position: relative;
+            padding: 5px;
+            text-align: center;
+            bottom:0px;
+    </style>
+
+</head>
+<body>
+<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">生活服务订单状态变更</span>
+	        </h3>
+         <div class="title-border"></div>
+         </div>
+        <div class="tsh-toolbar">
+         	<label style="margin-left:20px;" ><span>生活服务订单类型:&nbsp;</span></label>
+         	<select class="easyui-combobox" name="order_type" id="id_order_type" style="width: 150px;height: 30px;">
+         		<option value="">请选择</option>
+				<option value="DJDF">缴电费</option>
+         		<option value="MPCZ">话费</option>
+         	</select>
+
+         	<label style="margin-left:70px;" ><span>订单号:&nbsp;</span></label>
+         	<input class="easyui-textbox"  id="id_order_no" style="width: 250px;height: 30px;">&nbsp;&nbsp;
+         	<a class="btn btn-1" href="javascript:void(0);" onclick="search1()"><i class="i-search"></i>确定</a>
+
+            </div>
+
+         <!-- 隐藏域存储订单状态 -->
+	     <input type="hidden" id="hidden_order_no">
+         <input type="hidden" id="hidden_order_status">
+         <input type="hidden" id="hidden_order_status_name">
+         <input type="hidden" id="hidden_order_refund_status">
+		 <input type="hidden" id="hidden_supplier_order_status">
+	     <input type="hidden" id="hidden_supplier_order_status_name">
+
+
+
+         <div style="width:1500px; height:50px;">
+             <div style="width:200px; float:left;">
+                 <label><h3>&nbsp;&nbsp;&nbsp;&nbsp;订单状态信息</h3></span></label>
+             </div>
+             <div class="class_order_change_table" style="margin:10px 20px 10px -3px; float:left; width:1400px;" >
+                 <table width="1400px" cellspacing="0" cellpadding="0" border="1px" style="text-align:center" id="id_order_status_table">
+                     <thead>
+						<tr bgcolor="#f5f5f5">
+							<td><h4>订单类型</h4></td>
+							<td><h4>订单号</h4></td>
+							<td><h4>支付金额</h4></td>
+							<td><h4>下单时间</h4></td>
+							<td><h4>订单状态</h4></td>
+							<td><h4>退款状态</h4></td>
+							<td><h4>操作</h4></td>
+						</tr>
+					</thead>
+        	 	</table>
+        	 </div>
+         </div>
+         <br>
+         <div style="width:1500px; height:50px;">
+        	 <div style="width:200px; float:left;" >
+                 <label><span><h3>&nbsp;&nbsp;&nbsp;&nbsp;变更历史记录</h3></span></label>
+             </div>
+        	 <div class="class_order_change_table" style="margin:10px 20px 10px -3px; float:left; width:1400px;" >
+        	 	<table width="1400px" cellspacing="0" cellpadding="0" style="text-align:center" id="id_order_change_table">
+					<thead>
+						<tr bgcolor="#f5f5f5">
+							<td><h4>订单号</h4></td>
+							<td><h4>原订单状态</h4></td>
+							<td><h4>变更后订单状态</h4></td>
+							<td><h4>变更原因</h4></td>
+							<td><h4>操作人</h4></td>
+							<td><h4>操作时间</h4></td>
+						</tr>
+					</thead>
+        	 	</table>
+        	 </div>
+         </div>
+
+
+
+</div>
+
+<!-- 对话框 -->
+<div id="id_dialog_order_status_change"></div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+<div style="width: 1000px;background: #f5f5f5">&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">有退款记录或修改状态记录均不能再次操作</font></div>
+<div style="width: 1000px;background: #f5f5f5">
+	<h3>&nbsp;&nbsp;&nbsp;&nbsp;话费充值订单状态变更说明</h3><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;1、可针对“充值成功”出现异常的订单（实际充值失败）进行“充值失败”的状态变更，变更后不支持系统自动退款。<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;2、可针对“充值中”出现异常的订单（状态持续超24小时，供应商对应订单为充值失败）进行“充值失败”的状态变更，变更后支持系统自动退款。<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;3、可针对“充值中”出现异常的订单（状态持续超24小时，供应商对应订单为充值成功）进行“充值成功”的状态变更。<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;4、可针对“扣款失败”出现异常的订单（实际扣款成功，需与财务核实）进行“充值失败”的状态变更，变更后不支持系统自动退款。<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;5、产生退款状态的订单不支持状态变更。<br><br><br>
+</div>
+
+<br><br><br>
+
+<div style="width: 1000px;background: #f5f5f5">
+	<h3>&nbsp;&nbsp;&nbsp;&nbsp;缴电费订单状态变更说明</h3><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;1、可针对“交易成功”出现异常的订单（实际缴费失败）进行“交易失败”的状态变更，变更后不支持系统自动退款。<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;2、可针对“缴费异常”的订单进行“交易失败”的状态变更，变更后不支持系统自动退款。<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;3、可针对“缴费异常”的订单进行“交易成功”的状态变更。<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;4、产生退款状态的订单不支持状态变更。<br><br><br>
+</div>
+
+</body>
+</html>

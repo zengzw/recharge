@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>生活服务订单</title>
+
+
+    <link rel="stylesheet" href="/static/h5/css/weui.min.css">
+    <link rel="stylesheet" href="/static/h5/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/static/h5/css/swiper-3.4.2.min.css"/>
+    <link rel="stylesheet" href="/static/h5/css/dropload.css">
+    <link rel="stylesheet" href="/static/h5/css/style.css"/>
+
+    <style type="text/css">
+
+        .title-bar {
+            border-bottom: 1px solid #d6d6d6;
+            background: #fff;
+            text-align: center;
+            width: 100%;
+            height: 7.5vh;;
+        }
+
+        .navbar-fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            top: 0;
+            z-index: 1030;
+        }
+
+        .go-back {
+            font-size: 0.44rem;
+            line-height: 1.44rem;
+            text-align: center;
+            float: left;
+            height: 1.44rem;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            vertical-align: middle;
+            margin-left: 0.1rem;
+        }
+
+
+        .win-title {
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 7.5vh;
+            text-align: center;
+            line-height: 7.5vh;
+            font-size: 0.44rem;
+        }
+
+        .weui-cell {
+            padding: 6px 15px;
+            position: relative;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            height: 1.4rem;
+        }
+
+        .my-weui-select {
+            /*-webkit-appearance: none;*/
+            height: 1rem;
+            /*line-height: 1rem;*/
+            /*position: relative;*/
+            /*z-index: 1;*/
+            /*padding-left: 0rem;*/
+            /*padding-right:0rem;*/
+            border: 0px;
+            /*border-color: #0f1f34;*/
+            width: 2.8rem;
+            font-size:0.36rem;
+            border-right: 1px solid #eeeeee;
+            border-radius: 0px;
+            outline: medium none;
+        }
+
+
+        .my-weui-input{
+            /*line-height: 1rem;*/
+            height: 1rem;
+            margin-left: 20px;
+            width: 100%;
+            border: 0px;
+            /*outline: 0;*/
+            /*-webkit-appearance: none;*/
+            background-color: transparent;
+            /*color: inherit;*/
+            font-size: 0.44rem;
+            outline: medium none;
+        }
+
+
+        .weui-navbar__item:after {
+            border-right: 0px solid #ccc;
+        }
+
+        .weui-form-preview__hd:after {
+            border-bottom: 0px solid #d9d9d9;
+        }
+
+        .weui-media-box:before {
+            border-top: 0px solid #e5e5e5;
+        }
+
+        .weui-form-preview:after {
+            border-bottom: 0px solid #d9d9d9;
+        }
+
+        .weui-form-preview:before {
+            border-top: 0px solid #d9d9d9;
+        }
+
+        .weui-navbar__item.weui-bar__item--on {
+            color: red;
+            background-color: white;
+            border-bottom:3px solid #ff6363;
+            position:relative;
+            margin-top: 3px;
+        }
+
+
+        .weui-navbar__item {
+            font-size: 0.40rem;
+            color: #333333;
+            padding: 13px 0;
+        }
+
+        .weui-form-preview__hd {
+            position: relative;
+            padding: 0px 15px;
+            text-align: right;
+            line-height: 1.4rem;
+        }
+
+        .weui-form-preview__hd .weui-form-preview__value {
+            font-style: normal;
+            font-size: 0.36rem;
+            align-items: left;
+        }
+        .weui-media-box {
+            padding: 0rem;
+        }
+
+        .weui-form-preview__label {
+            float: left;
+            margin-right: 1em;
+            min-width: 4em;
+            text-align: justify;
+            text-align-last: justify;
+            color: #333333;
+            font-size: 0.36rem;
+        }
+
+        .weui-form-preview__value {
+            font-size: 0.36rem;
+        }
+
+        .weui-form-preview__bd {
+            padding: 10px 15px;
+            font-size: .36em;
+            text-align: left;
+            color: #333333;
+            border-bottom-color: #000000;
+        }
+
+        .weui-media-box_appmsg .weui-media-box__thumb {
+            width: 60%;
+            max-height: 100%;
+            vertical-align: top;
+        }
+
+
+        .btn-query{
+            padding: 0 .6em 0 .7em;
+            border-left: 1px solid #e5e5e5;
+            font-size: 0.36rem;
+            color: #f23030;
+            /*font-weight: bold;*/
+        }
+
+        .btn-gogo {
+            display: block;
+            color: #999999;
+            border: 1px solid red;
+            border-radius: 2px;
+            text-decoration: none;
+            cursor: pointer;
+            text-align: center;
+            height: 1.6rem;
+            line-height: 1.6rem;
+            color: red;
+            font-size: 0.36rem;
+            margin-left: 5px;
+            margin-right: 5px;
+            width: 5rem;
+        }
+
+
+
+        .one {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 1.35rem;
+            border-bottom: 1px solid #eeeeee;
+            padding-left: 0.3rem;
+            padding-right: 0.3rem;
+        }
+
+        .one-one {
+            display: flex;
+            align-content: center;
+            align-items: center;
+
+        }
+
+        .three {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .two {
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+            align-items: center;
+            height: 2.4rem;
+            padding-left: 0.2rem;
+            padding-right: 0.3rem;
+        }
+
+        .two-one {
+            display: flex;
+            align-content: center;
+        }
+
+        .two-two {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            height: 2.4rem;
+        }
+
+        .two-three {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-top: 0.4rem;
+            padding-left: 0.4rem;
+        }
+        .four{
+            display: flex;
+            flex-direction: row-reverse;
+            height: 1.35rem;
+            align-items: center;
+            border-top: 1px solid #eeeeee;
+            padding-right: 0.3rem;
+        }
+        .item-text{
+            font-size: 0.36rem;
+            line-height: 0.7rem;
+        }
+        .item-text-one{
+            font-size: 0.32rem;
+            padding-left: 0.1rem;
+            text-align: center;
+            color: #999999;
+
+        }
+
+        .phone_middle{
+            font-size: 1rem;
+            color: red;
+        }
+
+        .phone {
+            width: 1.35rem;
+            height: 1.35rem;
+            padding-top: 0.3rem;
+        }
+    </style>
+    <script src="/static/h5/js/adaptive.js"></script>
+    <script>
+        // 设计图宽度
+        window['adaptive'].desinWidth = 1080;
+        // body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'  750的设计图一般设置为28,640的设计图一般设置为24
+        window['adaptive'].baseFont = 32;
+        window['adaptive'].init();
+    </script>
+</head>
+
+<body>
+
+
+<header class="title-bar navbar-fixed-top">
+    <div class="win-title">生活服务订单</div>
+    <p class="go-back icon-fanhuianniu" onclick="orderListManager.jump2MyOrderPage();"></p>
+    <!--<img class="go-back" src="/static/h5/res/back.png" >-->
+</header>
+
+<div id="content" style="position: absolute;width: 100%;margin-top: 7.5vh; ">
+    <input type="hidden" id="currentPageId">
+    <input type="hidden" id="typeId">
+
+    <div class="weui-cell" style="background: #eeeeee;">
+        <div class="weui-cell__hd" align="left">
+            <select class="my-weui-select">
+                <option value="1" style="align-items: center;">&nbsp;&nbsp;&nbsp;&nbsp;话费充值</option>
+            </select>
+        </div>
+        <div class="weui-cell__bd" style="background: white;">
+            <input id="inputMobile" class="my-weui-input" type="number" pattern="[0-9]*" placeholder="输入查询号码...">
+        </div>
+        <div class="weui-cell__ft">
+            <a class="btn-query" id="queryOrderButton">搜索</a>
+        </div>
+    </div>
+
+    <div class="weui-cell" style="padding: 1px 15px;">
+
+        <a class="weui-navbar__item weui-bar__item--on" id="allHref" href="#tab1" onclick="orderListManager.queryAll();">
+            全部
+        </a>
+        <a class="weui-navbar__item" href="#tab1" onclick="orderListManager.queryWait();">
+            等待结果
+        </a>
+        <a class="weui-navbar__item" href="#tab1" onclick="orderListManager.querySuccess();">
+            已成功
+        </a>
+        <a class="weui-navbar__item" href="#tab1" onclick="orderListManager.queryFail();">
+            已失败
+        </a>
+
+    </div>
+
+    <div id="pull-data-page">
+        <div id="dataPage"></div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+</body>
+
+
+<script src="/static/h5/js/jquery.min.js"></script>
+<script src="/static/h5/js/jquery-weui.min.js"></script>
+<script src="/js/h5/order_list.js"></script>
+<script src="/static/h5/js/swiper-3.4.2.jquery.min.js"></script>
+<script src="/static/h5/js/dropload.min.js"></script>
+<script src="/js/h5/Utils/utils.js"></script>
+</html>

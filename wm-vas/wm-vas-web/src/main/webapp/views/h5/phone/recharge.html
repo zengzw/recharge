@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>手机充值</title>
+    <link rel="stylesheet" href="/static/h5/css/weui.min.css">
+    <link rel="stylesheet" href="/static/h5/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/static/h5/css/swiper-3.4.2.min.css"/>
+    <link rel="stylesheet" href="/static/h5/css/style.css"/>
+
+    <style type="text/css">
+        .area {
+            display: inline-flex;
+            line-height: 1.35rem;
+            font-size: 0.36rem;
+        }
+
+        .bottom-tip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0.4rem;
+        }
+
+        .btn {
+            color: white;
+            text-decoration: none;
+            background-color: #D6D6D6;
+            line-height: 1.35rem;
+            font-size: 0.44rem;
+            cursor: pointer;
+            text-align: center;
+            width: 10.2rem;
+            height: 1.35rem;
+            border-radius: 2px;
+        }
+
+        .btn-active {
+            background-color: #F23030;
+        }
+
+        .btn-activity {
+            display: block;
+            color: #999999;
+            border: 1px solid #999999;
+            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.44rem;
+            cursor: pointer;
+            text-align: center;
+            width: 89%;
+            height: 1.35rem;
+            line-height: 1.35rem;
+        }
+
+        .btn-activity-join {
+            color: #F23030;
+            border: 1px solid #F23030;
+        }
+
+        .grid-value-face {
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-left: 0.3rem;
+            margin-right: 0.3rem;
+
+        }
+
+        .item-value-face {
+            border-radius: 2px;
+            border: 1px solid #999999;
+            margin-top: 0.3rem;
+            width: 3.15rem;
+            height: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text-value-face {
+            font-size: 0.36rem;
+            color: #333333;
+        }
+
+        .item-value-face-active {
+            border: 1px solid #F23030;
+        }
+
+        .text-value-face-active {
+            color: #F23030;
+        }
+
+        .input-phone-number {
+            font-size: 0.65rem;
+            border: none;
+            line-height: 1rem;
+            height: 1rem;
+            padding-left: 0.1rem;
+            width: 60%;
+            margin-left: 0.2rem;
+            vertical-align: text-bottom;
+            display: block;
+        }
+
+        .input-part {
+            flex-direction: row;
+            align-items: center;
+            display: flex;
+            background-color: #FFFFFF;
+            width: 100%;
+            height: 1.35rem;
+            /*justify-content: space-between;*/
+        }
+
+        .content-title {
+            color: #999999;
+            font-size: 0.36rem;
+            margin-top: 0.2rem;
+            margin-left: 0.3rem;
+        }
+
+        .title-bar {
+            border-bottom: 1px solid #d6d6d6;
+            background: #fff;
+            text-align: center;
+            width: 100%;
+            height: 1.44rem;;
+        }
+
+        .navbar-fixed-top {
+            position: fixed;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+        }
+
+        .go-back {
+            font-size: 0.64rem;
+            line-height: 1.44rem;
+            text-align: center;
+            float: left;
+            height: 1.44rem;
+            margin: 0px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            vertical-align: middle;
+            margin-left: 0.1rem;
+        }
+
+        .win-title {
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 1.44rem;
+            text-align: center;
+            line-height: 1.44rem;
+            font-size: 0.44rem;
+        }
+
+        .toolbar .title {
+            font-size: .44rem;
+            color: #333333;
+            width: 100%;
+            line-height: 1.3rem;
+        }
+
+        .toolbar .picker-button {
+            position: absolute;
+            right: 0;
+            box-sizing: border-box;
+            height: 1.3rem;
+            line-height: 1.3rem;
+            color: gray;
+            z-index: 1;
+            padding: 0 .5rem;
+            font-size: 0.8rem;
+        }
+
+        .toolbar .toolbar-inner {
+            height: 1.3rem;
+            display: flex;
+            text-align: center;
+        }
+
+        .weui-popup__modal .modal-content {
+            height: 100%;
+            padding-top: 1.3rem;
+            overflow: auto;
+            box-sizing: border-box;
+            color: #333333;
+            height: 11rem;
+        }
+
+        .coupon-class {
+            background: white;
+            height: 3rem;
+            margin-left: 0.2rem;
+            margin-right: 0.2rem;
+            margin-top: 0.1rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .history-div {
+            position: fixed;
+            left: 50%;
+            margin-left: -3.5rem;
+            top: 50%;
+            margin-top: -4.5rem;
+            z-index: 9999;
+            width: 7rem;
+            height: 9rem;
+            background-color: #ffffff;
+        }
+
+        .history-content {
+            width: 7rem;
+            height: 9rem;
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+        }
+
+        .history-cancel {
+            width: 100%;
+            border-top: 1px solid #999999;
+            color: #333333;
+            font-size: 0.6rem;
+            display: block;
+            text-align: center;
+            height: 1.35rem;
+            line-height: 1.35rem;
+            margin-top: 0.3rem;
+        }
+
+        .history-title {
+            color: #f23030;
+            margin-top: 0.3rem;
+            font-size: 0.44rem;
+        }
+
+        .history-item {
+            display: block;
+            color: #333333;
+            border: 1px solid #999;
+            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.5rem;
+            cursor: pointer;
+            text-align: center;
+            height: 1rem;
+            line-height: 1rem;
+            margin-top: 0.3rem;
+            width: 5.8rem;
+        }
+
+        .history-tips {
+            margin-top: 0.3rem;
+            font-size: 0.44rem;
+            height: 0.65rem;
+            text-align: center;
+            color: #a0a0a0;
+        }
+        .history-bottom{
+            height: 2.3rem;
+            bottom: 0;
+            width: 100%;
+            position: absolute;
+        }
+        #history-list{
+            margin-bottom: 2.3rem;
+            overflow: scroll;
+        }
+        .coupon-item {
+            width: 100%;
+            height: 2.72rem;
+            padding: 0.2rem;
+        }
+
+        .coupon-item-img {
+            width: 96%;
+            display: block;
+            position: absolute;
+            height: 2.72rem;
+        }
+
+        .coupon-item-btn {
+            display: block;
+            font-size: 0.32rem;
+            width: 1rem;
+            border: 1px solid #ff6363;
+            line-height: 100%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.4rem;
+            color: #f23030;;
+            border-radius: 2px;
+        }
+
+        .coupon-item-right {
+            width: 1.6rem;
+            position: absolute;
+            right: 0;
+            height: 2.72rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coupon-item-left {
+            position: absolute;
+            left: 0;
+            height: 2.72rem;
+            margin-left: 0.2rem;
+            padding-left: 0.2rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .coupon-money-class{
+            font-size: 1.8rem;
+            color: #f23030;
+            font-weight: bold;
+        }
+
+        .coupon-item-text {
+            font-size: 0.32rem;
+            margin-left: 0.2rem;
+        }
+
+        .coupon-item-text-small {
+            font-size: 0.3rem;
+            margin-left: 0.3rem;
+            color: #999999;
+        }
+
+        .coupon-item-left-text {
+            height: 2.72rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 0.36rem;
+        }
+
+        .coupon-item-left-symbol {
+            margin-left: 0.3rem;
+            align-self: flex-start;
+            font-size: 0.36rem;
+            margin-top: 0.5rem;
+        }
+
+    </style>
+    <script src="/static/h5/js/adaptive.js"></script>
+    <script>
+        // 设计图宽度
+        window['adaptive'].desinWidth = 1080;
+        // body 字体大小 会将body字体大小设置为 baseFont / 100 + 'rem'  750的设计图一般设置为28,640的设计图一般设置为24
+        window['adaptive'].baseFont = 32;
+        window['adaptive'].init();
+    </script>
+</head>
+
+<body>
+
+    <header class="title-bar navbar-fixed-top">
+        <div class="win-title">手机充值</div>
+        <p class="go-back icon-fanhuianniu"></p>
+    </header>
+
+    <div id="content" style="position: absolute;margin-top: 1.44rem;overflow: scroll;width: 100%;">
+        <img src="/static/h5/res/adv.png" width="100%" style="display: block;"/>
+
+        <div class="swiper-container">
+            <div class="swiper-wrapper" style="height:1.1rem;">
+            </div>
+        </div>
+
+        <div style="background-color: #EEEEEE;width: 100%;height: 2rem;;display: flex;justify-content: center;align-items: center;">
+            <div class="input-part">
+                <p class="icon-denglu_shoujihao"
+                   style="height: 1.35rem;line-height: 1.35rem;margin-left: 0.3rem;font-size: 0.65rem;"></p>
+                <input class="input-phone-number" id="input_number" type="number" pattern="[0-9]*"
+                       placeholder="请输入要充值的手机号码">
+                <p id="input_clear" class="weui-icon-cancel area"
+                   style="color: #AAAAAA; font-size:0.5rem;display: none;"></p>
+                <p class="area" style="color: #999999;" id="area"></p>
+            </div>
+        </div>
+
+        <div class="bottom-tip">
+            <div style="width: 50%;display: flex;justify-content: flex-start;margin-left: 0.3rem;">
+                <p style="display: inline-flex ;justify-content: flex-start ;color: #999999; font-size: 0.36rem;">
+                    充值面额</p>
+            </div>
+            <div style="width: 50%;display: flex;justify-content: flex-end;margin-right: 0.3rem;">
+                <p id="btn-history"
+                   style="display: inline-flex ;justify-content: flex-end ;color: #F23030; font-size: 0.36rem;">
+                    历史充值号码</p>
+            </div>
+        </div>
+
+
+        <div class="grid-value-face" id="grid_view">
+            <div class="item-value-face" align="center">
+                <p class="text-value-face">10.00元</p>
+                <p class="text-value-face">售价:9.00元</p>
+            </div>
+            <div class="item-value-face" align="center">
+                <p class="text-value-face">20.00元</p>
+                <p class="text-value-face">售价:19.00元</p>
+            </div>
+            <div class="item-value-face" align="center">
+                <p class="text-value-face">50.00元</p>
+                <p class="text-value-face">售价:49.00元</p>
+            </div>
+            <div class="item-value-face" align="center">
+                <p class="text-value-face">100.00元</p>
+                <p class="text-value-face">售价:99.00元</p>
+            </div>
+        </div>
+
+        <div id="activity">
+
+            <div class="bottom-tip">
+                <div style="width: 50%;display: flex;justify-content: flex-start;margin-left: 0.3rem;">
+                    <p style="display: inline-flex ;justify-content: flex-start ;color: #999999; font-size: 0.36rem;">
+                        参与活动</p>
+                </div>
+                <div style="width: 50%;display: flex;justify-content: flex-end;margin-right: 0.3rem;">
+                    <a href="win_list.html"
+                       style="display: inline-flex ;justify-content: flex-end ;color: #F23030; font-size: 0.36rem;">查看中奖名单</a>
+                </div>
+            </div>
+
+            <div class="bottom-tip">
+                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
+                    <a class="btn-activity btn-activity-join" href="javascript:void(0);" id="btn-join">加1元参与</a>
+                </div>
+                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
+                    <a class="btn-activity" href="javascript:void(0);" id="btn-not-join">不参与</a>
+                </div>
+            </div>
+
+
+            <div class="bottom-tip">
+                <div style="width: 110%;display: flex;justify-content: flex-start;margin-left: 0.3rem;">
+                    <p style="display: inline-flex ;justify-content: flex-start ;color: #999999; font-size: 0.36rem;">
+                        参与即有机会赢取超值大奖或无门槛购物代金券</p>
+                </div>
+                <div style="width: 35%;display: flex;justify-content: flex-end;margin-right: 0.3rem;">
+                    <a href="win_introduce.html"
+                       style="display: inline-flex ;justify-content: flex-end ;color: #F23030; font-size: 0.36rem;">查看活动说明</a>
+                </div>
+            </div>
+
+
+            <div class="bottom-tip" id="youhui-div" style="display: none;">
+                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
+
+                    <!--class="weui-btn weui-btn_primary open-popup" data-target="#half"-->
+                    <a class="btn-activity btn-activity-join open-popup"
+                       href="javascript:void(0);"
+                       id="btn-coupon-join" data-target="#half" onclick="recharge.queryUsableCouponList();"></a>
+                </div>
+                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
+                    <a class="btn-activity" href="javascript:void(0);" id="btn-coupon-not-join">不使用</a>
+                </div>
+            </div>
+
+            <!--<div style="margin-top: 0.2rem">-->
+            <!--<p style="font-size:0.32rem;margin-left: 0.3rem;margin-right: 0.3rem;color: #999999;">-->
+            <!--（<a-->
+            <!--href=""-->
+            <!--style="color: #F23030"></a>）-->
+            <!--</p>-->
+            <!--</div>-->
+        </div>
+
+        <div class="bottom-tip">
+            <a class="btn" href="javascript:void(0);" id="btn-pay">立即支付</a>
+        </div>
+
+        <p align="center" style="color: #999999;margin-top:0.2rem;font-size:0.36rem;margin-bottom:0.2rem;">
+            支付后10分钟内到账，请留意手机短信通知</p>
+
+        <div align="center">
+            <a href="recharge_introduce.html" style="color: #F23030;font-size: 0.36rem;padding-bottom: 0.2rem;">充值说明</a>
+        </div>
+
+
+        <div id="half" class="weui-popup__container popup-bottom" style="display: none;">
+            <div class="weui-popup__overlay"></div>
+            <div class="weui-popup__modal">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <a href="javascript:;" class="picker-button close-popup icon-jujue "></p></a>
+                        <h1 class="title">我的“话费充值”优惠券</h1>
+                    </div>
+                </div>
+                <div class="modal-content">
+                    <div class="weui-grids" id="couponListDiv">
+
+                        <!--<div class="coupon-item">-->
+                            <!--<img class="coupon-item-img" src="/static/h5/res/coupon-bg.png">-->
+                            <!--<div class="coupon-item-left">-->
+                                <!--<p class="coupon-item-left-symbol">¥</p>-->
+                                <!--<p class="coupon-money-class">10</p>-->
+                                <!--<div class="coupon-item-left-text">-->
+                                    <!--<p class="coupon-item-text">无条件使用</p>-->
+                                    <!--<p class="coupon-item-text" style="color: #f23030;">话费充值</p>-->
+                                    <!--<p class="coupon-item-text-small">时间:2017.06.23-2017.06.24</p>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="coupon-item-right">-->
+                                <!--<p class="coupon-item-btn">立<br/>即<br/>使<br/>用</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="history-view" class="weui-popup__container">
+            <div class="weui-popup__overlay"></div>
+            <div class="weui-popup__modal history-div">
+                <div class="history-content">
+                    <p class="history-title">历史充值手机号</p>
+                    <div id="history-list">
+                        <a class="history-item" href="javascript:void(0);">15812347894</a>
+                        <a class="history-item" href="javascript:void(0);">15834543535</a>
+                        <a class="history-item" href="javascript:void(0);">15813453453</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                        <a class="history-item" href="javascript:void(0);">15815345343</a>
+                    </div>
+                    <div class="history-bottom">
+                        <p class="history-tips">可点击以上号码进行快捷录入</p>
+                        <a class="history-cancel" href="javascript:void(0);">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+<script src="/static/h5/js/jquery.min.js"></script>
+<script src="/static/h5/js/jquery-weui.min.js"></script>
+<script src="/js/h5/Utils/utils.js"></script>
+<script src="/js/h5/recharge.js"></script>
+<script src="/static/h5/js/swiper-3.4.2.jquery.min.js"></script>
+</html>

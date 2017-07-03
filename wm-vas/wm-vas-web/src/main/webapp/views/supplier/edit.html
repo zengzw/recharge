@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <title>增值服务供应商资料编辑</title>
+    <link href="../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+	<link href="../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+	<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+	<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+	<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+	<script src="../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+	<script src="../../static/tsh/1.0.0/plugins/others/webuploader-0.1.5/webuploader.nolog.min.js"></script>
+	<script src="../../static/js/util.js"></script>
+
+    <style>
+        .form td {
+            padding: 10px 0
+        }
+    </style>
+    <script type="text/javascript">
+    	var supplierCode = $.acceptParam("supplierCode");
+    	function getCheckbox(){
+    		var chk_value =[]; 
+    		$('input[name="businessCodes"]:checked').each(function(){ 
+    			chk_value.push($(this).val()); 
+    		});
+    		if(chk_value.length == 0){
+    			//alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);
+    			return false;
+    		}else{
+    			return true;
+    		}
+    	}
+    	$(function(){
+    		
+    		$("#returnId").on('click',function(){
+    			location.href = 'list.html';
+    		});
+    		
+    		$.ajax({
+				type : 'GET',
+				url : "../../vas/supplier/get/supplierinfo",
+				data : {
+					'supplierCode':supplierCode
+				},
+				success : function(data) {
+					if(data.data){
+						var obj = data.data;
+						$("#supplierName").textbox('setValue',obj.supplierName);
+						$("#company").textbox('setValue',obj.company);
+						$("#email").textbox('setValue',obj.email);
+						$("#mobile").textbox('setValue',obj.mobile);
+						$("#telphone").textbox('setValue',obj.telphone);
+						$("#supplierCode").val(obj.supplierCode);
+						//选择已对接的业务
+						if(obj.businessCodes.length > 0){
+							$.each(obj.businessCodes,function(index,obj){
+								checkbox = $('input[value='+obj+']').attr("checked",'true');
+							});
+						}
+					}
+				}
+			});
+    		
+    		$("#saveId").on('click', function() {
+				var ss = $("#ff").serializeJson("businessCodes");
+				var r = $("#ff").form('validate');
+				var checkR = getCheckbox();
+				if(!checkR){
+					show('warning','接入的业务不能为空!');
+					return false;
+				}
+				if (r && checkR) {
+					$.ajax({
+						type : 'post',
+						url : "../../vas/supplier/update",
+						data : {
+							'param':JSON.stringify(ss)
+						},
+						success : function(data) {
+							if (2200 == data.code) {
+								show('info','修改成功');
+								setTimeout("returnList();",2000);
+							}else{
+								show('error','修改失败，请联系管理员');
+							}
+						}
+					});
+				}else{
+					return false;
+				}
+			});
+    	});
+    	
+    	//跳转到列表页面
+    	function returnList(){
+    		location.href = 'list.html';
+    	}
+    </script>
+</head>
+<body style="margin-left:30px; width:700px;">
+	<div id="tb">
+		<div id="tsh-title">
+			<h3>
+				<span class="t1">增值服务供应商资料编辑</span>
+			</h3>
+			<div class="title-border"></div>
+		</div>
+		<form id="ff" method="post" class="form">
+			<input type="hidden" id="supplierCode" value="" name="supplierCode" />
+	    	<table cellpadding="5">
+		        <tr>
+		            <td style="text-align:right"><span class="text-red">*</span>联系人：</td>
+		            <td>
+		                <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="supplierName" id="supplierName"
+		                       missingMessage="请填写联系人"
+		                       data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		            </td>
+		        </tr>
+		        <tr>
+		            <td style="text-align:right"><span class="text-red">*</span>供应商名称：</td>
+		            <td>
+		                <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="company" id="company" readonly="true"
+		                       missingMessage="请填写供应商名称"
+		                       data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		            </td>
+		        </tr>
+		        <tr>
+		            <td style="text-align:right"><span class="text-red">*</span> 联系Email：</td>
+		            <td>
+		                <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="email" id="email"
+		                	   validType="email"
+		                       missingMessage="请填写您公司名称"
+		                       data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		            </td>
+		        </tr>
+		        <tr>
+		            <td style="text-align:right"><span class="text-red">*</span> 联系手机：</td>
+		            <td>
+		                <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="mobile" id="mobile"
+                           validType="mobile"
+                           missingMessage="请填写联系手机"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		            </td>
+		        </tr>
+		        <tr>
+		            <td style="text-align:right"><span class="text-red"></span> 联系座机：</td>
+		            <td>
+		                <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="telphone" id="telphone"
+		                       missingMessage="请填写联系座机">
+		            </td>
+		        </tr>
+		        <tr>
+		            <td style="text-align:right">
+		                <span class="text-red">*</span>对接的业务：
+		            </td>
+		            <td>
+		                <input id="check-2" type="checkbox" class="checkbox" name="businessCodes" value="DJDF" />
+		                <label for="check-2">缴电费</label>
+		                <input id="check-3" type="checkbox" class="checkbox" name="businessCodes" value="HCP" />
+		                <label for="check-3">火车票</label>
+		                &nbsp;
+	                    <input id="check-4" type="checkbox" class="checkbox" name="businessCodes" value="MPCZ"/>
+	                    <label for="check-4">话费充值</label>
+		            </td>
+		        </tr>
+		        <tr>
+		        	<td style="text-align:right">
+		                <span class="text-red">友情提醒：</span>
+		            </td>
+		            <td>
+		            	<span class="text-red">取消“对接的业务”的业务选择状态，也会清除已设置的对应业务支持地区</span>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td>&nbsp;</td>
+		            <td>
+		                <a href="javascript:void(0)" class="btn btn-1" id="saveId" >保存</a>
+		                	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		                <a href="javascript:void(0)" class="btn" id="returnId">返回</a>
+		            </td>
+		        </tr>
+	    	</table>
+		</form>
+	</div>
+</body>

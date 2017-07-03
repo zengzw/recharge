@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>话费抽奖参与网点排名</title>
+	<link href="../../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+</head>
+<body>
+<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">话费抽奖参与网点排名</span>
+	        </h3>
+         <div class="title-border"></div>
+         </div>
+         <form id="search_form">
+       <div class="tsh-toolbar">
+		  <label style="margin-left: 20px;"><span>所属区域:&nbsp;</span>
+			   <select name="province" id="province" prompt="请选择省份" class="easyui-combobox" style="height:28px;width:100px;">
+			   </select>
+			   <select name="city" id="city" prompt="请选择市区" class="easyui-combobox" style="height:28px;width:100px;">
+			   </select>
+			   <select name="areaId" id="area" prompt="请选择县域中心" class="easyui-combobox" style="height:28px;width:180px;">
+			   </select>
+			   <select name="storeId" id="store" prompt="请选择网点" class="easyui-combobox" style="height:28px;width:180px;">
+			   </select>
+		   </label>
+		   
+		   <label style="margin-left: 20px;"><span>下单时间:&nbsp;</span>
+			   <input class="easyui-datebox" editable="false" name="beginTime" id="startDate" validType="startTime['#endDate']" style="width: 130px; height: 30px;">-
+			   <input class="easyui-datebox" editable="false" name="endTime" id="endDate" validType="endTime['#endDate']" style="width: 130px; height: 30px;">
+		   </label>
+		   
+		    <a class="btn btn-1" id="id_search" href="javascript:void(0);" >查询</a>
+		    <a class="btn btn-5" id="id_clear" href="javascript:void(0);" >清空</a>
+		    <a class="btn" id="id_export" href="javascript:void(0);" >导出列表</a>
+           <br>
+    </div>
+    </form>
+</div>
+
+<table id="id_activity_statistics" class="easyui-datagrid" ></table>
+
+
+<script src="../../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+<script src="http://tshcdn.tsh365.cn/ued/ued-common.js"></script>
+<script type="text/javascript"  src="/static/tsh/common/commonTools.js" ></script>
+<!-- 自定义js -->
+<script src="/js/webHelper.js"></script>
+<script type="text/javascript" src="/js/phonefare/activity/list_activity_statistics.js"></script>
+
+</body>
+</html>

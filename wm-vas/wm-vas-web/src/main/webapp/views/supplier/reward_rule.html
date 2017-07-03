@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>增值服务提点规则</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../static/js/util.js"></script>
+<script src="../../js/supplier/reward_rule.js"></script>
+
+<style type="text/css">
+	.hh{
+		height: 30px;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		var company = $.acceptParam("company");
+		company = decodeURI(company);
+		
+		$("#currentCompany").text(company);
+		//返回
+		$("#returnId").on('click',function(){
+			location.href = 'list.html';
+		});
+	})
+</script>
+</head>
+<body style="margin: 0 20px;">
+	 <div class="tsh-title ">
+	     <h3>
+	          <div class="title-border"></div>
+	          <span class="t1">增值服务提点规则</span>
+	      </h3>
+	  </div>
+	  <div id="tt" class="easyui-tabs" fit="true"  tabHeight="40" >
+	        <div title="缴电费" style="padding:10px;">
+			    <div>
+			    	 <label>增值服务供应商名称：</label>
+			    	 <input class="easyui-textbox" style="width:270px; height:30px;" type="text" id="company" />
+		             <a href="javascript:void(0)" class="btn btn-1" id="search_DJDF" >搜索</a>&nbsp;&nbsp;&nbsp;
+		             <a href="javascript:void(0)" class="btn btn-1" id="clear_DJDF" >清空</a>
+		             <div class="tsh-title ">
+					     <h3>
+					     	<div class="title-border"></div>
+					     </h3>
+					 </div>
+		             <div style="padding-top: 20px;">
+		             <form id="dataGrid_DJDF_FORM">
+						<table id="dataGrid_DJDF" class="easyui-datagrid"></table>
+					 </form>	
+				    </div>
+			    </div>
+	        </div>
+	        <div title="火车票" style="padding:10px;">
+			    <div>
+			    	 <label>增值服务供应商名称：</label>
+			    	 <input class="easyui-textbox" style="width:270px; height:30px;" type="text" id="company_HCP" />
+		             <a href="javascript:void(0)" class="btn btn-1" id="search_HCP" >搜索</a>&nbsp;&nbsp;&nbsp;
+		             <a href="javascript:void(0)" class="btn btn-1" id="clear_HCP" >清空</a>
+		             <div class="tsh-title ">
+					     <h3>
+					     	<div class="title-border"></div>
+					     </h3>
+					 </div>
+		             <div style="padding-top: 20px;">
+		             <form id="dataGrid_HCP_FORM">
+						<table id="dataGrid_HCP" class="easyui-datagrid"></table>
+					 </form>	
+				    </div>
+			    </div>
+	        </div>
+	        <div title="话费充值" style="padding:10px;">
+			    <div>
+			    	 <label>增值服务供应商名称：</label>
+			    	 <input class="easyui-textbox" style="width:270px; height:30px;" type="text" id="company_MPCZ" />
+		             <a href="javascript:void(0)" class="btn btn-1" id="search_MPCZ" >搜索</a>&nbsp;&nbsp;&nbsp;
+		             <a href="javascript:void(0)" class="btn btn-1" id="clear_MPCZ" >清空</a>
+		             <div class="tsh-title ">
+					     <h3>
+					     	<div class="title-border"></div>
+					     </h3>
+					 </div>
+		             <div style="padding-top: 20px;">
+		             <form id="dataGrid_MPCZ_FORM">
+						<table id="dataGrid_MPCZ" class="easyui-datagrid"></table>
+					 </form>	
+				    </div>
+			    </div>
+	        </div>
+	    </div>
+</body>
+</html>

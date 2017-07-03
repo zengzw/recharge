@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>增值服务商优先级</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../static/js/util.js"></script>
+<script src="../../js/supplier/reward_rule.js"></script>
+
+<style type="text/css">
+	.hh{
+		height: 30px;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		var company = $.acceptParam("company");
+		company = decodeURI(company);
+		
+		$("#currentCompany").text(company);
+		//返回
+		$("#returnId").on('click',function(){
+			location.href = 'list.html';
+		});
+	})
+</script>
+</head>
+<body style="margin: 0 20px;">
+	 <div class="tsh-title ">
+	     <h3>
+	          <div class="title-border"></div>
+	          <span class="t1">增值服务商优先级</span>
+	      </h3>
+	  </div>
+	  <div id="tt" class="easyui-tabs" fit="true"  tabHeight="40" >
+	        <div title="缴电费" style="padding:10px;">
+			    <div>
+			    	 <label>增值服务供应商名称：</label>
+			    	 <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="mobile"
+		                       missingMessage="增值服务供应商名称"
+		                       data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		             <a href="javascript:void(0)" class="btn btn-1" id="saveId" >搜索</a>
+		             <div class="tsh-title ">
+					     <h3>
+					     	<div class="title-border"></div>
+					     </h3>
+					 </div>
+					 <div style="padding-top: 20px;">
+					 	<a href="javascript:void(0)" class="btn btn-1" id="saveId" >保存设置</a>
+					 </div>
+		             <div style="padding-top: 20px;">
+				    	<table id="dataGridDF" class="easyui-datagrid"></table>
+				    </div>
+			    </div>
+	        </div>
+	        <div title="话费充值" style="padding:10px">
+	            <div>
+			    	 <label>增值服务供应商名称：</label>
+			    	 <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="mobile"
+		                       missingMessage="增值服务供应商名称"
+		                       data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		             <a href="javascript:void(0)" class="btn btn-1" id="saveId" >搜索</a>
+		             <div class="tsh-title ">
+					     <h3>
+					     	<div class="title-border"></div>
+					     </h3>
+					 </div>
+					 <div style="padding-top: 20px;">
+					 	<a href="javascript:void(0)" class="btn btn-1" id="saveId" >保存设置</a>
+					 </div>
+		             <div style="padding-top: 20px;">
+				    	<table id="dataGridHFCZ" class="easyui-datagrid"></table>
+				    </div>
+			    </div>
+	        </div>
+	        <div title="缴水费" style="padding:10px">
+	            <div>
+			    	 <label>增值服务供应商名称：</label>
+			    	 <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="mobile"
+		                       missingMessage="增值服务供应商名称"
+		                       data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		             <a href="javascript:void(0)" class="btn btn-1" id="saveId" >搜索</a>
+		             <div class="tsh-title ">
+					     <h3>
+					     	<div class="title-border"></div>
+					     </h3>
+					 </div>
+					 <div style="padding-top: 20px;">
+					 	<a href="javascript:void(0)" class="btn btn-1" id="saveId" >保存设置</a>
+					 </div>
+		             <div style="padding-top: 20px;">
+				    	<table id="dataGridSF" class="easyui-datagrid"></table>
+				    </div>
+			    </div>
+	        </div>
+	        <div title="缴煤气费" style="padding:10px">
+	            <div>
+			    	 <label>增值服务供应商名称：</label>
+			    	 <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="mobile"
+		                       missingMessage="增值服务供应商名称"
+		                       data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		             <a href="javascript:void(0)" class="btn btn-1" id="saveId" >搜索</a>
+		             <div class="tsh-title ">
+					     <h3>
+					     	<div class="title-border"></div>
+					     </h3>
+					 </div>
+					 <div style="padding-top: 20px;">
+					 	<a href="javascript:void(0)" class="btn btn-1" id="saveId" >保存设置</a>
+					 </div>
+		             <div style="padding-top: 20px;">
+				    	<table id="dataGridMQF" class="easyui-datagrid"></table>
+				    </div>
+			    </div>
+	        </div>
+	        <div title="有线电视费" style="padding:10px">
+	            <div>
+			    	 <label>增值服务供应商名称：</label>
+			    	 <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="mobile"
+		                       missingMessage="增值服务供应商名称"
+		                       data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+		             <a href="javascript:void(0)" class="btn btn-1" id="saveId" >搜索</a>
+		             <div class="tsh-title ">
+					     <h3>
+					     	<div class="title-border"></div>
+					     </h3>
+					 </div>
+					 <div style="padding-top: 20px;">
+					 	<a href="javascript:void(0)" class="btn btn-1" id="saveId" >保存设置</a>
+					 </div>
+		             <div style="padding-top: 20px;">
+				    	<table id="dataGridYXDSF" class="easyui-datagrid"></table>
+				    </div>
+			    </div>
+	        </div>
+	    </div>
+</body>
+</html>

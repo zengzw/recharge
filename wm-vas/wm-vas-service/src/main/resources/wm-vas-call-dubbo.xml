@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="vas-n-service"/>
+
+    <dubbo:registry address="${zookeeper}" check="false" timeout="${timeout}"/>
+
+    <!-- 网点 -->
+    <dubbo:reference id="areaApi" interface="com.tsh.dubbo.bis.api.AreaApi" check="false" timeout="5000"/>
+    <!-- 县域 -->
+    <dubbo:reference id="shopApi" interface="com.tsh.dubbo.bis.api.ShopApi" check="false" timeout="30000"/>
+
+    <dubbo:reference id="companyApi" interface="com.tsh.dubbo.bis.api.CompanyApi" check="false" timeout="5000"/>
+    <!-- 供应商 -->
+    <dubbo:reference id="supplierApi" interface="com.tsh.dubbo.bis.api.SupplierApi" check="false" timeout="5000"/>
+    <!--行政区域-->
+    <dubbo:reference id="addressApi" interface="com.tsh.dubbo.share.api.AddressApi" cache="false" timeout="5000"/>
+    <!--令牌服务.-->
+    <dubbo:reference id="ticketService" interface="com.tsh.sfund.api.TicketService" check="false" retries="0"
+                     timeout="5000"/>
+    <!--账户系统服务-->
+    <dubbo:reference id="bizOrderPayService" interface="com.tsh.sfund.orderpay.BizOrderPayService" check="false"
+                     retries="0" timeout="5000"/>
+    <dubbo:reference id="orderSettleService" interface="com.tsh.sfund.settle.OrderSettleService" check="false"
+                     retries="0" timeout="5000"/>
+    <dubbo:reference id="orderRefundService" interface="com.tsh.sfund.orderrefund.OrderRefundService" check="false"
+                     retries="0" timeout="5000"/>
+
+    <!--代金券-->
+    <dubbo:reference id="couponApi" interface="com.tsh.dubbo.hlq.api.CouponApi" check="false" retries="0"
+                     timeout="60000"/>
+</beans>

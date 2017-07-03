@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+>
+	
+	<!-- 开车前一天短信提醒用户 -->
+    <bean id="remindTimer" class="com.tsh.vas.trainticket.timer.RemindTimer"/>
+    <bean id="remindJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="vas_remind_group"/>
+        <property name="name" value="vas_remind_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="remindTimer"/>
+        <property name="targetMethod" value="autoRun"/>
+    </bean>
+    <bean id="remindTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="remindJob"/>
+        <!-- 每天晚上12点提醒 -->
+        <property name="cronExpression" value="0 0 0 * * ? *"/>
+    </bean>
+    
+    
+	<!--  一直支付中的定时器，3分钟刷新一次 -->
+    <bean id="orderPayingTimer" class="com.tsh.vas.trainticket.timer.OrderPayingTimer"/>
+    <bean id="orderPayingJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="vas_order_paying_group"/>
+        <property name="name" value="vas_order_paying_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="orderPayingTimer"/>
+        <property name="targetMethod" value="autoRun"/>
+    </bean>
+    <bean id="vasOrderPyaingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="orderPayingJob"/>
+        <property name="cronExpression" value="0 */6 * * * ?"/>
+    </bean>
+    
+    <!-- 一直退款中的定时器，5分钟刷新一次 -->
+    <bean id="refundingTimer" class="com.tsh.vas.trainticket.timer.RefundingTimer"/>
+    <bean id="refundingJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="vas_refunding_group"/>
+        <property name="name" value="vas_refunding_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="refundingTimer"/>
+        <property name="targetMethod" value="autoRun"/>
+    </bean>
+    <bean id="vasRefundingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="refundingJob"/>
+        <property name="cronExpression" value="0 */5 * * * ?"/>
+    </bean>
+    
+    
+    <!--  针对于出票失败、购票失败、支付异常进行退款操作 -->
+    <bean id="refundOrderErrorTimer" class="com.tsh.vas.trainticket.timer.RefundOrderErrorTimer"/>
+    <bean id="vasRefundOrderErrorJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="vas_refund_order_error_group"/>
+        <property name="name" value="vas_refund_order_error_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="refundOrderErrorTimer"/>
+        <property name="targetMethod" value="autoRun"/>
+    </bean>
+    <bean id="vasRefundOrderErrorTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="vasRefundOrderErrorJob"/>
+        <property name="cronExpression" value="0 */2 * * * ?"/>
+    </bean>
+    
+    
+    <!--  用户手动退票，退款操作 -->
+    <bean id="returnTicketTimer" class="com.tsh.vas.trainticket.timer.ReturnTicketTimer"/>
+    <bean id="returnTicketJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="vas_return_ticket_group"/>
+        <property name="name" value="vas_return_ticket_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="returnTicketTimer"/>
+        <property name="targetMethod" value="autoRun"/>
+    </bean>
+    <bean id="vasReturnTicketTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="returnTicketJob"/>
+        <property name="cronExpression" value="0 */10 * * * ?"/>
+    </bean>
+
+
+    <bean id="hcpOrderInfoScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="vasOrderPyaingTrigger"/>
+                <ref bean="vasRefundingTrigger"/>
+                <ref bean="vasRefundOrderErrorTrigger"/>
+                <ref bean="vasReturnTicketTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="com.github.ltsopensource.spring.quartz.QuartzLTSProxyBean">
+        <property name="clusterName" value="${clusterName}"/>
+        <property name="registryAddress" value="${registryAddress}"/>
+        <property name="nodeGroup" value="vas_hcp_quartz_group"/>
+        <property name="configs">
+            <props>
+                <prop key="job.fail.store">mapdb</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

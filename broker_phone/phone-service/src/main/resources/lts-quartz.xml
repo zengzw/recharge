@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+     
+  	<!-- 产品更新  -->
+  	<bean name="refreshPhoneProduct" class="com.tsh.phone.timer.RechargeProductTimer" />
+  	
+    <bean id="quartzRefreshPhoneProductJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="refreshPhoneProduct"/>
+        <property name="targetMethod" value="start"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="quartzRefreshPhoneProductJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="quartzRefreshPhoneProductJob"/>
+       <property name="cronExpression" value="0 10 */9 * * ?"/> 
+        <property name="description" value="quartz_broker_phone_product"/>
+    </bean>
+	
+    
+    <bean name="brokerPhoneTimerScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="quartzRefreshPhoneProductJobTrigger" />
+            </list>
+        </property>
+    </bean>	 
+
+  
+<bean class="com.github.ltsopensource.spring.quartz.QuartzLTSProxyBean">
+        <property name="clusterName" value="${clusterName}"/>
+        <property name="registryAddress" value="${registryAddress}"/>
+        <property name="nodeGroup" value="broker_phone_quartz_TaskTracker"/>
+        <property name="configs">
+            <props>
+                <prop key="job.fail.store">mapdb</prop>
+            </props>
+        </property>
+    </bean>  
+ 
+</beans>

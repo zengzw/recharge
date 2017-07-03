@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="renderer" content="webkit">
+<title>增值服务地区优先级</title>
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../static/tsh/1.0.0/themes/style.css">
+<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+<script src="../../static/js/util.js"></script>
+<script src="../../js/supplier/area_priority.js"></script>
+<script src="../../js/webHelper.js"></script>
+<style type="text/css">
+	.hh{
+		height: 30px;
+	}
+</style>
+<script type="text/javascript">
+	//话费充值
+	function initProvinceMPCZ(){
+		$.ajax({
+			  url:WebHelper.GetAddress(),
+			  data:{cid:0},
+			  dataType:'jsonp',
+			  async:false,
+			  success:function(data){
+				  $('#province_MPCZ').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'name',
+					  editable:false,
+					  onChange:function(){
+						  var provinceId = $('#province_MPCZ').combobox('getValue');
+						  initCityMPCZ(provinceId);
+					  }
+				  });
+			  }
+		  });
+	}
+	function initCityMPCZ(provinceId){
+		$.ajax({
+			  url:WebHelper.GetAddress(),
+			  data:{cid:provinceId},
+			  dataType:'jsonp',
+			  async:false,
+			  success:function(data){
+				  $('#city_MPCZ').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'name',
+					  editable:false,
+					  onChange:function(){
+						  var cityId =  $('#city_MPCZ').combobox('getValue');
+						  initAreaMPCZ(cityId);
+					  }
+				  });
+			  }
+		  });
+	}
+	function initAreaMPCZ(){
+		var province = $('#province_MPCZ').combobox('getText');
+	  	var city = $('#city_MPCZ').combobox('getText');
+		$.ajax({
+			url:'../../common/queryAreasByProvinceAndCityAndArea.do',
+			data:{
+				provinceName:province,
+				cityName:city
+			},
+			async:false,
+			cache:false,
+			processData:true, // 转换data成查询字符串。默认值为true
+			success:function(data){
+				$('#area_MPCZ').combobox({
+					data:data,
+					valueField:'id',
+					textField:'areaName',
+					editable:false
+				});
+			}
+		});
+	}
+
+	//加载省-火车票
+	function initProvinceHCP(){
+		$.ajax({
+			  url:WebHelper.GetAddress(),
+			  data:{cid:0},
+			  dataType:'jsonp',
+			  async:false,
+			  success:function(data){
+				  $('#province_HCP').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'name',
+					  editable:false,
+					  onChange:function(){
+						  var provinceId = $('#province_HCP').combobox('getValue');
+						  initCityHCP(provinceId);
+					  }
+				  });
+			  }
+		  });
+	}
+	//加载市-火车票
+	function initCityHCP(provinceId){
+		  $.ajax({
+			  url:WebHelper.GetAddress(),
+			  data:{cid:provinceId},
+			  dataType:'jsonp',
+			  async:false,
+			  success:function(data){
+				  $('#city_HCP').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'name',
+					  editable:false,
+					  onChange:function(){
+						  var cityId =  $('#city_HCP').combobox('getValue');
+						  initAreaHCP(cityId);
+					  }
+				  });
+			  }
+		  });
+	 }
+	//加载县-火车
+	function initAreaHCP(cityId){
+		  var province = $('#province_HCP').combobox('getText');
+		  var city = $('#city_HCP').combobox('getText');
+		  $.ajax({
+			  url:'../../common/queryAreasByProvinceAndCityAndArea.do',
+			  data:{
+				  	provinceName:province,
+				  	cityName:city
+			  },
+			  async:false,
+			  cache:false,
+			  processData:true, // 转换data成查询字符串。默认值为true
+			  success:function(data){
+				  $('#area_HCP').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'areaName',
+					  editable:false
+				  });
+			  }
+		  });
+	 }
+	
+	//加载省
+	function initProvince() {
+		  $.ajax({
+			  url:WebHelper.GetAddress(),
+			  data:{cid:0},
+			  dataType:'jsonp',
+			  async:false,
+			  success:function(data){
+				  $('#province_DJDF').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'name',
+					  editable:false,
+					  onChange:function(){
+						  var provinceId = $('#province_DJDF').combobox('getValue');
+						  initCity(provinceId);
+					  }
+				  });
+			  }
+		  });
+	}
+	// 加载市
+	 function initCity(provinceId){
+		  $.ajax({
+			  url:WebHelper.GetAddress(),
+			  data:{cid:provinceId},
+			  dataType:'jsonp',
+			  async:false,
+			  success:function(data){
+				  $('#city_DJDF').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'name',
+					  editable:false,
+					  onChange:function(){
+						  var cityId =  $('#city_DJDF').combobox('getValue');
+						  initArea(cityId);
+					  }
+				  });
+			  }
+		  });
+	  }
+	
+	 // 加载县域列表
+	  function initArea(cityId){
+		  var province = $('#province_DJDF').combobox('getText');
+		  var city = $('#city_DJDF').combobox('getText');
+		  $.ajax({
+			  url:'../../common/queryAreasByProvinceAndCityAndArea.do',
+			  data:{
+				  	provinceName:province,
+				  	cityName:city
+			  },
+			  async:false,
+			  cache:false,
+			  processData:true, // 转换data成查询字符串。默认值为true
+			  success:function(data){
+				  $('#area_DJDF').combobox({
+					  data:data,
+					  valueField:'id',
+					  textField:'areaName',
+					  editable:false
+				  });
+			  }
+		  });
+	 }
+ 
+	$(function(){
+		initProvince();
+		initProvinceHCP();
+		initProvinceMPCZ();
+		var company = $.acceptParam("company");
+		company = decodeURI(company);
+		
+		$("#currentCompany").text(company);
+		//返回
+		$("#returnId").on('click',function(){
+			location.href = 'list.html';
+		});
+		
+	})
+</script>
+</head>
+<body style="margin: 0 20px;">
+	<div class="tsh-title ">
+	     <h3>
+	          <div class="title-border"></div>
+	          <span class="t1">增值服务地区优先级</span>
+	      </h3>
+	  </div>
+	  <div id="tt" class="easyui-tabs" fit="true"  tabHeight="40" >
+	        <div title="缴电费" style="padding:10px;">
+			    <div style="padding-top: 20px;padding-left: 20px;">
+			    	<label id="categoryLable">省市：
+						<select name="province" id="province_DJDF" prompt="请选择省份"  class="easyui-combobox" style="height:28px;width:100px;">
+							
+						</select>
+						<select name="city" id="city_DJDF" prompt="请选择市区" class="easyui-combobox" style="height:28px;width:100px;">
+							
+						</select>
+					</label>
+					<label id="categoryLable">县域中心：
+						<select name="area" id="area_DJDF" prompt="请选择县域中心" class="easyui-combobox" style="height:28px;width:180px;">
+							
+						</select>
+					</label>
+					
+					<label>
+						<a href="javascript:;" class="btn btn-1" id="search_DJDF">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="javascript:;" class="btn btn-1" id="clear_DJDF">清空</a>
+					</label>
+			    </div>
+			    <div style="padding-top: 20px;padding-left: 20px;">
+			    	<table id="dataGridDF" class="easyui-datagrid"></table>
+			    </div>
+	        </div>
+	        
+	        <div title="火车票" style="padding:10px;">
+			    <div style="padding-top: 20px;padding-left: 20px;">
+			    	<label id="categoryLable">省市：
+						<select name="province" id="province_HCP" prompt="请选择省份"  class="easyui-combobox" style="height:28px;width:100px;">
+							
+						</select>
+						<select name="city" id="city_HCP" prompt="请选择市区" class="easyui-combobox" style="height:28px;width:100px;">
+							
+						</select>
+					</label>
+					<label id="categoryLable">县域中心：
+						<select name="area" id="area_HCP" prompt="请选择县域中心" class="easyui-combobox" style="height:28px;width:180px;">
+							
+						</select>
+					</label>
+					
+					<label>
+						<a href="javascript:;" class="btn btn-1" id="search_HCP">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="javascript:;" class="btn btn-1" id="clear_HCP">清空</a>
+					</label>
+			    </div>
+			    <div style="padding-top: 20px;padding-left: 20px;">
+			    	<table id="dataGridHCP" class="easyui-datagrid"></table>
+			    </div>
+	        </div>
+	        
+	        <div title="话费充值" style="padding:10px;">
+			    <div style="padding-top: 20px;padding-left: 20px;">
+			    	<label id="categoryLable">省市：
+						<select name="province" id="province_MPCZ" prompt="请选择省份"  class="easyui-combobox" style="height:28px;width:100px;">
+							
+						</select>
+						<select name="city" id="city_MPCZ" prompt="请选择市区" class="easyui-combobox" style="height:28px;width:100px;">
+							
+						</select>
+					</label>
+					<label id="categoryLable">县域中心：
+						<select name="area" id="area_MPCZ" prompt="请选择县域中心" class="easyui-combobox" style="height:28px;width:180px;">
+							
+						</select>
+					</label>
+					
+					<label>
+						<a href="javascript:;" class="btn btn-1" id="search_MPCZ">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="javascript:;" class="btn btn-1" id="clear_MPCZ">清空</a>
+					</label>
+			    </div>
+			    <div style="padding-top: 20px;padding-left: 20px;">
+			    	<table id="dataGridMPCZ" class="easyui-datagrid"></table>
+			    </div>
+	        </div>
+	    </div>
+	</body>
+</html>

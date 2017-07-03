@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <title>淘实惠管理系统-供应商入驻</title>
+    <link href="../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../../static/tsh/1.0.0/plugins/others/webuploader-0.1.5/webuploader.nolog.min.js"></script>
+    <script type="text/javascript" src="http://tshcdn.tsh365.cn/ued/ued-common.js"></script>
+    <script src="../../static/js/util.js"></script>
+
+    <style>
+        .form td {
+            padding: 10px 0
+        }
+    </style>
+    <script type="text/javascript">
+        var selectBusIds = '';
+        var selectBusIdObjs = '';
+        var addBus = '';
+
+        function getCheckbox() {
+            var chk_value = [];
+            $('input[name="businessCodes"]:checked').each(function () {
+                chk_value.push($(this).val());
+            });
+            if (chk_value.length == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function CallBack_openDialog(bigsty) {
+            selectBusIds = sel_openDialog;
+            selectBusIdObjs = obj_openDialog;
+            console.info(sel_openDialog);
+            console.error(obj_openDialog);
+            
+            $('#shopSupplierId').val(selectBusIds);
+            $('#shopSupplierNo').val(selectBusIdObjs[0].supplierNo);
+            $('#company').textbox('setValue', selectBusIdObjs[0].companyName);
+
+            validateBus(selectBusIdObjs[0].supplierNo);
+        }
+
+        function validateBus(shopSupplierNo) {
+            $.ajax({
+                type: 'get',
+                url: "../../vas/supplier/getObjectByShopSupplierNo",
+                async: false,
+                data: {
+                    'shopSupplierNo': shopSupplierNo
+                },
+                success: function (data) {
+                    if (data.data != null) {
+                        addBus = false;
+                    } else {
+                        addBus = true;
+                    }
+                }
+            });
+        }
+
+        function returnList() {
+            location.href = 'list.html';
+        }
+
+        $(function () {
+            $("#saveId").on('click', function () {
+                var ss = $("#ff").serializeJson("businessCodes");
+                var r = $("#ff").form('validate');
+                var checkR = getCheckbox();
+                if (!checkR) {
+                    show('warning', '接入的业务不能为空!');
+                    return false;
+                }
+                
+                var company = $('#company').textbox('getValue');
+                
+                if ('' == company || null == company || undefined == company) {
+                    show('warning', '请选择供应商!');
+                    return false;
+                }
+                if (r && checkR) {
+                    if (addBus) {
+                    	console.info("request params is：" + JSON.stringify(ss));
+                        $.ajax({
+                            type: 'post',
+                            url: "../../vas/supplier/apply",
+                            async: false,
+                            data: {
+                                'param': JSON.stringify(ss)
+                            },
+                            success: function (data) {
+                                if (2200 == data.code) {
+                                    show('info', '添加成功');
+                                    setTimeout('returnList()', 2000);
+                                }else{
+                                	show('error', '添加失败，请联系管理员');
+                                }
+                            }
+                        });
+                    } else {
+                        show('error', '供应商已经存在!');
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+
+            });
+
+            $("#returnId").on('click', function () {
+                location.href = 'list.html';
+            });
+
+
+            $("#selectCompany").on('click', function () {
+                selDialog(true, 1, 1, 'gys', "CallBack");
+            });
+
+        });
+    </script>
+</head>
+<body style="margin-left:30px; width:700px;">
+<div id="tb">
+    <div id="tsh-title">
+        <h3>
+            <span class="t1">新增增值服务供应商</span>
+        </h3>
+        <div class="title-border"></div>
+    </div>
+    <form id="ff" method="post" class="form">
+
+        <input type="hidden" id="shopSupplierId" name="shopSupplierId"/>
+        <input type="hidden" id="shopSupplierNo" name="shopSupplierNo"/>
+
+        <table cellpadding="5">
+            <tr>
+                <td style="text-align:right"><span class="text-red">*</span>联系人：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="supplierName"
+                           missingMessage="请填写联系人"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:left"><span class="text-red">*</span>供应商名称：</td>
+                <td style="text-align:left">
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" readonly="true"
+                           name="company" id="company"
+                           missingMessage="请填写供应商名称"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err"/>
+                    <a href="javascript:void(0)" class="btn btn-1" id="selectCompany">选择供应商</a>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"><span class="text-red">*</span> 联系Email：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="email"
+                           validType="email"
+                           missingMessage="请填写联系Email"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"><span class="text-red">*</span> 联系手机：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="mobile" id="mobile"
+                           validType="mobile"
+                           missingMessage="请填写联系手机"
+                           data-options="delay:500,validateOnCreate:false,validateOnBlur:true,required:true,err:err">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"><span class="text-red"></span> 联系座机：</td>
+                <td>
+                    <input class="easyui-textbox" style="width:270px; height:30px;" type="text" name="telphone" missingMessage="请填写联系座机" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    <span class="text-red">*</span>对接的业务：
+                </td>
+                <td>
+                    <input id="check-2" type="checkbox" class="checkbox" name="businessCodes" value="DJDF"/>
+                    <label for="check-2">缴电费</label>
+                    &nbsp;
+                    <input id="check-3" type="checkbox" class="checkbox" name="businessCodes" value="HCP"/>
+                    <label for="check-3">火车票</label>
+                    &nbsp;
+                    <input id="check-4" type="checkbox" class="checkbox" name="businessCodes" value="MPCZ"/>
+                    <label for="check-4">话费充值</label>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <a href="javascript:void(0)" class="btn btn-1" id="saveId">保存</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:void(0)" class="btn" id="returnId">返回</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>

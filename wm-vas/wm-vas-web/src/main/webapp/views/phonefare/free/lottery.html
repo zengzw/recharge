@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+	<title>话费开奖设置</title>
+	<link href="../../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="../../../static/tsh/1.0.0/jquery.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+    <script src="../../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+    
+    <!-- 自定义js -->
+	<script type="text/javascript" src="../../../js/phonefare/common.js"></script>
+    <script type="text/javascript" src="../../../js/phonefare/ordermanager/common.js"></script>
+	<script src="../../../js/webHelper.js"></script>
+	<script type="text/javascript" src="../../../js/phonefare/free/lottery.js"></script>
+	<script type="text/javascript" src="../../../js/phonefare/free/cashCouponLottery.js"></script>
+	<style type="text/css">
+
+
+
+
+	</style>
+</head>
+<body>
+<div id="tb">
+		 <div id="tsh-title">
+	        <h3>
+	            <span class="t1">话费开奖设置</span>
+	        </h3>
+         <div class="title-border"></div>
+         </div>
+       <div class="tsh-toolbar">
+		    <label style="margin-left: 20px;"><span>开奖订单范围选择:&nbsp;</span>
+				<select id="id_lottery_count" class="easyui-combobox" name="type" style="width:100px; height:30px;">
+					<option value='5'>5单</option>
+					<option value='10'>10单</option>
+					<option value='20'>20单</option>
+					<option value='50'>50单</option>
+					<option value='100'>100单</option>
+					<option value='200'>200单</option>
+					<option value='300'>300单</option>
+					<option value='500'>500单</option>
+					<option value='800'>800单</option>
+					<option value='1000'>1000单</option>
+				</select>
+		    </label>
+		   <label style="margin-left: 20px;"><span>充值面额:&nbsp;</span>
+			   <select id="id_charge_amount" class="easyui-combobox" name="type" style="width:100px; height:30px;">
+			   </select>
+		   </label>
+		    <a class="btn btn-1" href="javascript:void(0);" onclick="freesearch()">查询</a>
+		    <a class="btn btn-5" href="javascript:void(0);" onclick="resetSearch()">清空</a>
+           <br>
+    </div>
+	<table width="100%">
+		<tr>
+			<td>
+				&nbsp;<a class="btn btn-2" href="javascript:void(0);" onclick="cashCouponLotteryManager.coming2meDaiJinJuan()">代金券开奖</a>
+				&nbsp;<a class="btn btn-1" href="javascript:void(0);" onclick="coming2me()">鼓励金开奖</a>
+				&nbsp;&nbsp;勾选要进行开奖的订单进行开奖，单次最高可设置20条。
+				&nbsp;&nbsp;数据总数: <font id="showNumbers" style="color: red;font-size: 20px; font-weight:bold;"></font>条
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table id="id_order_change_datagrid2" class="easyui-datagrid" ></table>
+
+<div id="id_phone_lottery_setting" ></div>
+
+<div id="id_phone_lottery_setting_daiJinJuan" ></div>
+
+<div id="id_select_daiJinJuan" ></div>
+
+
+</body>
+</html>

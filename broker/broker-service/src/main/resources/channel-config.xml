@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:platform="http://platform.dtds.com/schema/platform"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://platform.dtds.com/schema/platform classpath:/platform/schema/platform-0.1.xsd 
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+    <!-- 易赛配置信息 -->
+    <bean id="salerWiseConfig" class="com.tsh.broker.config.SalerWiseConfig">
+        <!-- 查询缴费单位Url地址 -->
+        <property name="queryPayUnitUrl" value="${sdm.salerwise.queryPayUnitUrl}" />
+        <!-- 公共事业缴费充值Url地址 -->
+        <property name="rechargeUrl" value="${sdm.salerwise.rechargeUrl}" />
+        <!-- 公共事业缴费充值Url地址 -->
+        <property name="queryRechargeResultUrl" value="${sdm.salerwise.queryRechargeResultUrl}" />
+        <!-- 查询充值结果Url地址 -->
+        <property name="queryPaymentBillUrl" value="${sdm.salerwise.queryPaymentBillUrl}" />
+        <!-- 充值超时时间（秒），时间区间 (300 秒-7200 秒)，默认600秒 -->
+        <property name="rechargeTimeout" value="${sdm.salerwise.rechargeTimeout}" />
+        <!-- 充值结果通知请求地址,调用内部服务地址 -->
+        <property name="resultNotifyUrl" value="${sdm.salerwise.resultNotifyUrl}" />
+        <!-- 公共事业多账期账单查询接口 -->
+        <property name="queryPaymentBillMoreUrl" value="${sdm.salerwise.queryPaymentBillMoreUrl}" />
+    </bean>
+
+    <!-- 欧飞配置信息 -->
+    <bean id="ofPayConfig" class="com.tsh.broker.config.OfPayConfig" >
+        <!-- 充值签名key -->
+        <property name="rechargeSignKey"  value="${sdm.ofpay.rechargeSignKey}" />
+        <!-- 公共事业缴费单位查询接口(getPayUnitList.do) -->
+        <property name="getPayUnitListURL"  value="${sdm.ofpay.getPayUnitListURL}" />
+        <!-- 公共事业缴费方式查询接口（getPayModeList.do） -->
+        <property name="getPayModeListURL"  value="${sdm.ofpay.getPayModeListURL}" />
+        <!-- 公共事业商品信息查询接口(queryClassId.do) -->
+        <property name="queryClassIdURL"  value="${sdm.ofpay.queryClassIdURL}" />
+        <!-- 公共事业账单查询接口(queryBalance.do) -->
+        <property name="queryBalanceURL"  value="${sdm.ofpay.queryBalanceURL}" />
+        <!-- 公共事业充值(utilityOrder.do) -->
+        <property name="utilityOrderURL"  value="${sdm.ofpay.utilityOrderURL}" />
+        <!-- 易赛充值结果回调地址 -->
+        <property name="callbackUrl"  value="${sdm.ofpay.callbackUrl}" />
+        <!-- 充值订单查询接口 -->
+        <property name="queryOrderResultURL"  value="${sdm.ofpay.queryOrderResultURL}" />
+    </bean>
+
+</beans>

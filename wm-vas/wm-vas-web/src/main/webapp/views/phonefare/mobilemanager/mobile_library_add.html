@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<title>新增手机号段</title>
+	<link href="../../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+	<link href="../../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+
+	<script src="../../../static/tsh/1.0.0/jquery.min.js"></script>
+	<script src="../../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+	<script src="../../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+	<script src="../../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+
+	<!-- 自定义js -->
+	<script type="text/javascript" src="../../../js/phonefare/common.js"></script>
+	<script type="text/javascript" src="../../../js/phonefare/ordermanager/common.js"></script>
+	<script src="../../../js/webHelper.js"></script>
+	<script type="text/javascript" src="../../../js/phonefare/mobilemanager/mobile_library_add.js"></script>
+	<style>
+		.form td {
+			padding: 10px 0
+		}
+	</style>
+</head>
+<body style="margin-left:30px; width:700px;">
+<div id="tb">
+	<div id="tsh-title">
+		<h3>
+			<span class="t1">新增手机号段</span>
+		</h3>
+		<div class="title-border"></div>
+	</div>
+	<form id="ff" method="post" class="form">
+
+		<table cellpadding="5">
+			<tr>
+				<td style="text-align:right"><span class="text-red">*</span>运营商：</td>
+				<td>
+					<select id="id_mobile_supplier" class="easyui-combobox" style="width:100px; height:30px;">
+						<option value=''>请选择</option>
+						<option value='中国移动'>中国移动</option>
+						<option value='中国电信'>中国电信</option>
+						<option value='中国联通'>中国联通</option>
+					</select>
+					&nbsp;&nbsp;
+					<span id="supplierError" style="color: red"></span>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><span class="text-red">*</span>省份：</td>
+				<td style="text-align:left">
+					<select id="province" class="easyui-combobox" prompt="请选择省份" style="width:150px; height:30px;">
+					</select>
+					&nbsp;&nbsp;
+					<span id="provinceError" style="color: red"></span>
+
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><span class="text-red">*</span> 城市：</td>
+				<td>
+					<select class="easyui-combobox" id="city" prompt="请选择市区" style="width:150px; height:30px;">
+					</select>
+					&nbsp;&nbsp;
+					<span id="cityError" style="color: red"></span>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><span class="text-red">*</span> 号段前缀：</td>
+				<td>
+					<input id="id_mobile_short" class="easyui-numberbox" style="width:100px; height:30px;">
+					&nbsp;&nbsp;&nbsp;注：请填写3位数的号段前缀
+					&nbsp;&nbsp;
+					<span id="mobileShortError" style="color: red"></span>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><span class="text-red">*</span> 号段：</td>
+				<td>
+					<input id="id_mobile_num" class="easyui-textbox" style="width:100px; height:30px;">
+					&nbsp;&nbsp;&nbsp;注：请填写7位数的号段，添加的号段不能与表单已有的号段重复！
+					&nbsp;&nbsp;
+					<span id="mobileNumError" style="color: red"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+					<a href="javascript:void(0)" class="btn btn-1" id="saveId" onclick="saveMobileLibrary()">保存</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="javascript:void(0)" class="btn" id="returnId" onclick="goBack2()">返回</a>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+</body>

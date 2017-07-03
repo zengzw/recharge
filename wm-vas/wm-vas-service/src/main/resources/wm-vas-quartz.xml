@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+>
+
+    <bean id="refundChargeInfoQuartz" class="com.tsh.vas.sdm.autotask.RefundChargeInfoQuartz"/>
+
+    <bean id="refundChargeInfoJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="group" value="refund_charge_info_group"/>
+        <property name="name" value="refund_charge_info"/>
+        <property name="concurrent" value="false"/>
+        <property name="targetObject" ref="refundChargeInfoQuartz"/>
+        <property name="targetMethod" value="autoRun"/>
+    </bean>
+
+    <bean id="refundChargeInfoTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="group" value="refund_charge_info_group"/>
+        <property name="name" value="refund_charge_info"/>
+        <property name="jobDetail" ref="refundChargeInfoJob"/>
+        <property name="cronExpression" value="0 5 0 * * ? *"/>
+        <property name="description" value="refund_charge_info_task"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="key1" value="v1"/>
+                <entry key="key2" value="v2"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="raceCouponActivityScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="refundChargeInfoTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="com.github.ltsopensource.spring.quartz.QuartzLTSProxyBean">
+        <property name="clusterName" value="${clusterName}"/>
+        <property name="registryAddress" value="${registryAddress}"/>
+        <property name="nodeGroup" value="vas_refund_charge_info_group"/>
+        <property name="configs">
+            <props>
+                <prop key="job.fail.store">mapdb</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

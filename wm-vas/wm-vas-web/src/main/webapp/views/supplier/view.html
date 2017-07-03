@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <title>增值服务供应商详情</title>
+    <link href="../../static/tsh/1.0.0/themes/easyui.css" rel="stylesheet" type="text/css">
+	<link href="../../static/tsh/1.0.0/themes/style.css" rel="stylesheet" type="text/css">
+	<script src="../../static/tsh/1.0.0/jquery.min.js"></script>
+	<script src="../../static/tsh/1.0.0/jquery.easyui.min.js"></script>
+	<script src="../../static/tsh/1.0.0/jquery.easyui.extend.min.js"></script>
+	<script src="../../static/tsh/1.0.0/locale/easyui-lang-zh_CN.js"></script>
+	<script src="../../static/tsh/1.0.0/plugins/others/webuploader-0.1.5/webuploader.nolog.min.js"></script>
+	<script src="../../static/js/util.js"></script>
+	
+    <style>
+        .form td {
+            padding: 10px 0
+        }
+    </style>
+    <script type="text/javascript">
+    	
+    	var supplierCode = $.acceptParam("supplierCode");
+    	
+    	$(function(){
+    		
+    		$("#returnId").on('click',function(){
+    			location.href = 'list.html';
+    		});
+    		
+    		$.ajax({
+				type : 'GET',
+				url : "../../vas/supplier/get/supplierinfo",
+				data : {
+					'supplierCode':supplierCode
+				},
+				success : function(data) {
+					if(data.data){
+						var obj = data.data;
+						$("#supplierCode").text(obj.supplierCode);
+						$("#checkTimeStr").text(obj.checkTimeStr);
+						$("#supplierName").text(obj.supplierName);
+						$("#company").text(obj.company);
+						$("#email").text(obj.email);
+						$("#mobile").text(obj.mobile);
+						$("#telphone").text(obj.telphone);
+						$("#businesseNamesStr").text(obj.businesseNamesStr);
+					}
+				}
+			});
+    	});
+    </script>
+</head>
+<body style="margin-left:30px; width:900px;">
+	<div id="tb">
+		<div id="tsh-title">
+			<h3>
+				<span class="t1">增值服务供应商查看</span>
+			</h3>
+			<div class="title-border"></div>
+		</div>
+		<div style="line-height:40px;">
+			<div>
+				<label>服务商编号：</label>
+				<span id="supplierCode"></span>
+			</div>
+			<div>
+				<label>创建时间：</label>
+				<span id="checkTimeStr"></span>
+			</div>
+			<div>
+				<label>联系人：</label>
+				<span id="supplierName"></span>
+			</div>
+			<div>
+				<label>供应商名称：</label>
+				<span id="company"></span>
+			</div>
+			<div>
+				<label>联系Email：</label>
+				<span id="email"></span>
+			</div>
+			<div>
+				<label>联系手机：</label>
+				<span id="mobile"></span>
+			</div>
+			<div>
+				<label>联系座机：</label>
+				<span id="telphone"></span>
+			</div>
+			<div>
+				<label>对接的业务：</label>
+				<span id="businesseNamesStr"></span>
+			</div>
+			
+			<div>
+				<a href="javascript:void(0)" class="btn" id="returnId">返回</a>
+			</div>
+		</div>
+	</div>
+</body>
